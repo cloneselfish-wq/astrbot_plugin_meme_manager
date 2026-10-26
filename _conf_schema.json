@@ -13,11 +13,7 @@
         "description": "预览加载并发数",
         "type": "int",
         "default": 2,
-        "slider": {
-          "min": 1,
-          "max": 8,
-          "step": 1
-        },
+        "slider": { "min": 1, "max": 8, "step": 1 },
         "hint": "每个插件页面同时加载的图片数量。低带宽建议 1–2，保存后刷新页面生效。"
       }
     }
@@ -31,12 +27,7 @@
         "description": "图床服务",
         "type": "string",
         "default": "cloudflare_r2",
-        "options": [
-          "stardots",
-          "cloudflare_r2",
-          "webdav",
-          "lsky"
-        ],
+        "options": ["stardots", "cloudflare_r2", "webdav", "lsky"],
         "hint": "请选择要使用的图床服务"
       },
       "providers": {
@@ -286,11 +277,7 @@
         "type": "int",
         "default": 200,
         "hint": "每个表情包独立计算，默认 200 张，可设置为 1–2000 张。达到容量后暂停向该包提交新候选图片；不会自动删除已收集图片",
-        "slider": {
-          "min": 1,
-          "max": 2000,
-          "step": 1
-        }
+        "slider": { "min": 1, "max": 2000, "step": 1 }
       },
       "scope": {
         "description": "允许收集的群聊或个人 ID",
@@ -323,11 +310,7 @@
         "type": "int",
         "default": 1,
         "hint": "优先处理平台明确标记为表情的图片，其余按消息顺序处理；默认 1 张，最多 10 张；同一消息内不重复触发来源冷却",
-        "slider": {
-          "min": 1,
-          "max": 10,
-          "step": 1
-        }
+        "slider": { "min": 1, "max": 10, "step": 1 }
       },
       "cooldown_seconds": {
         "description": "同一来源最短识别间隔（秒）",
@@ -373,10 +356,7 @@
             "description": "表情附加触发范围",
             "type": "string",
             "default": "only_chat_llm",
-            "options": [
-              "only_chat_llm",
-              "chat_and_plugin_llm"
-            ],
+            "options": ["only_chat_llm", "chat_and_plugin_llm"],
             "hint": "only_chat_llm=仅对普通聊天 LLM 回复附加（默认）；chat_and_plugin_llm=同时对插件通过 event.request_llm 触发的 LLM 回复附加。第三方 Agent、指令和固定文本不触发"
           }
         }
