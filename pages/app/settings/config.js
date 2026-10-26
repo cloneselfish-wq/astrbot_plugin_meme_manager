@@ -195,6 +195,10 @@ async function initPluginConfig() {
   ];
   const categories = {
     sending: ["表情发送", "控制表情何时出现，以及它在聊天中的呈现方式。"],
+    compose: [
+      "底图配字",
+      "让模型在透明底图上写一句话。与原表情包二选一，同一轮只会发一张图。",
+    ],
     models: ["模式", "选择模式，并从流程图打开相关设置。"],
     collect: ["自动收集", "从聊天中收集表情，用来源范围和频率控制收集节奏。"],
     storage: ["存储与下载", "连接图床、管理同步，并设置资源下载方式。"],
@@ -225,6 +229,34 @@ async function initPluginConfig() {
       title: "发送方式",
       description: "根据聊天平台选择适合的图片和消息格式。",
       prefixes: ["generation.message."],
+    },
+    {
+      id: "compose-basic",
+      category: "compose",
+      title: "开关与生效范围",
+      description:
+        "命中的轮次里，模型只会拿到「底图配字」这一个工具，图库检索工具会被收走，所以同一轮不可能发出两张图。",
+      prefixes: [
+        "compose.enabled",
+        "compose.bot_ids",
+        "compose.session_ratio",
+      ],
+    },
+    {
+      id: "compose-render",
+      category: "compose",
+      title: "出图效果",
+      description:
+        "控制一句话能写多少字、用哪套字体、输出多大。保持默认即可正常使用。",
+      prefixes: ["compose.max_chars", "compose.font", "compose.canvas"],
+    },
+    {
+      id: "compose-unassigned",
+      category: "compose",
+      title: "其他设置",
+      description: "尚未归入上面分类的配置项，功能本身不受影响。",
+      prefixes: [],
+      fallback: true,
     },
     {
       id: "semantic",
@@ -441,6 +473,12 @@ async function initPluginConfig() {
     "auto_collect.vision_provider_id": "收集识别模型",
     "auto_collect.target_pack_id": "收集到的表情包",
     "generation.message.mixed_probability": "图文同条回复概率（%）",
+    "compose.enabled": "启用底图配字",
+    "compose.bot_ids": "对哪些 bot 生效",
+    "compose.session_ratio": "配字比例（%）",
+    "compose.max_chars": "一句话最多几个字",
+    "compose.font": "指定字体",
+    "compose.canvas": "出图尺寸（像素）",
   };
   const hints = {
     "generation.emotion.probability":
@@ -457,6 +495,18 @@ async function initPluginConfig() {
       "留空时自动选择可用向量模型。更换模型后，可到语义化页面检查并重建索引。",
     "auto_collect.target_pack_id":
       "留空时跟随人设或会话规则；指定后使用该包的分类进行识别，收集的图片也归属该包。",
+    "compose.enabled":
+      "开启后，一部分轮次会改成「挑一张透明底图，由模型写一句话画上去」。需要插件目录下的 stamp_base（底图 + 字体 + 清单）完整存在，缺任何一项都会自动跳过，不影响原表情包。",
+    "compose.bot_ids":
+      "填 QQ 号，不是 bot 名字，多个用逗号分隔（例如 3177624799）。留空表示所有 bot 都生效。只想让某个角色玩这个功能时，在这里限定。",
+    "compose.session_ratio":
+      "按会话计数：每 10 轮里恰好有 比例÷10 轮会配字，具体落在哪几轮随机，不会连续命中或长时间不出。30 表示每 10 轮约 3 轮；填 0 等于停用，填 100 表示每轮都配字。",
+    "compose.max_chars":
+      "超过这个字数会拒绝出图，并要求模型把话缩短，不会硬塞。5–7 字最稳，8 字已经是清晰度下限，再长就会压得很小。",
+    "compose.font":
+      "留空时，每轮在「整句话都能完整渲染」的字体里自动轮换。中文以方堂体为主；日文汉字覆盖不全的字体不会被选中，避免出现方块。想固定风格可填 SSFangTangTi 或 YurukaStd。",
+    "compose.canvas":
+      "正方形 PNG 的边长。512 在 QQ 上已经清晰，单图约 120 KB；想要更锐利可以调大，但文件体积会跟着涨。",
   };
   const optionLabels = {
     cloudflare_r2: "Cloudflare R2",
@@ -867,14 +917,19 @@ async function initPluginConfig() {
       } else sections.append(card);
     }
     for (const field of snapshot.fields) {
-      const assigned = groups.find((item) =>
-        item.prefixes.some((prefix) =>
-          prefix.endsWith(".")
-            ? field.path.startsWith(prefix)
-            : field.path === prefix,
-        ),
-      );
-      if (!assigned) throw new Error("配置分类已更新，请刷新页面后重试");
+      const assigned =
+        groups.find((item) =>
+          item.prefixes.some((prefix) =>
+            prefix.endsWith(".")
+              ? field.path.startsWith(prefix)
+              : field.path === prefix,
+          ),
+        ) || groups.find((item) => item.fallback);
+      if (!assigned) {
+        // 后端新增了本页还不认识的配置项：跳过这一项，不要整页崩掉
+        console.warn(`[meme_manager] 配置项未归类，已跳过：${field.path}`);
+        continue;
+      }
       field.category = assigned.category;
       fields.set(field.path, field);
       const row = document.createElement("div");
@@ -1037,6 +1092,12 @@ async function initPluginConfig() {
       document
         .querySelector(`#config-group-${assigned.id} .config-card-body`)
         .append(row);
+    }
+    // 兜底卡片没接住任何字段就移除，避免留下空白面板
+    for (const group of groups) {
+      if (!group.fallback) continue;
+      const card = document.getElementById(`config-group-${group.id}`);
+      if (card && !card.querySelector(".config-field")) card.remove();
     }
     updateView();
   }
