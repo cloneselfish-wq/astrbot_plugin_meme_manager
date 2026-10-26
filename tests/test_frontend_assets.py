@@ -62,6 +62,42 @@ async def test_shared_assets_resolve_through_astrbot_page_service(monkeypatch):
         await service.resolve_plugin_page_file(plugin, "app", "../_conf_schema.json")
 
 
+SCRIPT_TAG_RE = re.compile(r"<script\b([^>]*)>", re.IGNORECASE)
+
+
+def test_page_scripts_never_run_before_bridge_sdk():
+    """页面脚本必须等桥接脚本就绪后才执行。
+
+    宿主把 `/api/plugin/page/bridge-sdk.js` 追加在 `</body>` 之前，也就是排在页面
+    自己所有 `<script>` 之后。普通（非 module）脚本会在解析到该标签时同步执行，
+    那时 `window.AstrBotPluginPage` 还是 undefined，页面直接崩在
+    `Cannot read properties of undefined (reading 'ready')`。
+    `type="module"` 会延迟到文档解析完成后按顺序执行，才能保证桥接已就绪。
+    """
+    checked = 0
+    for entry in sorted(APP.glob("*/index.html")):
+        html = entry.read_text("utf-8")
+        scripts = "".join(
+            path.read_text("utf-8") for path in entry.parent.glob("*.js")
+        )
+        if "AstrBotPluginPage" not in scripts:
+            continue
+        checked += 1
+        bridge_seen = False
+        for match in SCRIPT_TAG_RE.finditer(html):
+            attrs = match.group(1)
+            if "/api/plugin/page/bridge-sdk.js" in attrs:
+                bridge_seen = True
+                continue
+            if re.search(r"""type\s*=\s*["']module["']""", attrs, re.IGNORECASE):
+                continue
+            assert bridge_seen, (
+                f"{entry.relative_to(ROOT)} 里 <script{attrs}> 早于桥接脚本执行，"
+                "window.AstrBotPluginPage 此时还不存在"
+            )
+    assert checked > 0
+
+
 def test_fonts_and_shared_scripts_have_no_delivery_copies():
     for name in ("ui.js", "ui.css", "fa.min.css"):
         assert list((ROOT / "pages").rglob(name)) == [APP / "shared" / name]
