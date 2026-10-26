@@ -170,8 +170,8 @@ main {
 }
 
 .upload-item.err {
-  color: var(--error-fg, #9b2c2c);
-  background: var(--error-bg, #fdeaea);
+  color: var(--danger-fg);
+  background: var(--danger-bg);
 }
 
 /* ------------------------------------------------------------ 工具条 */
@@ -390,9 +390,9 @@ main {
 }
 
 .base-actions button.danger:hover {
-  border-color: var(--error-border, #e0b4b4);
-  color: var(--error-fg, #9b2c2c);
-  background: var(--error-bg, #fdeaea);
+  border-color: var(--danger-border);
+  color: var(--danger-fg);
+  background: var(--danger-bg);
 }
 
 .base-actions button:disabled {
