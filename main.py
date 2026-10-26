@@ -1,6 +1,7 @@
 import asyncio
 import copy
 import re
+import time
 from pathlib import Path
 
 from astrbot.api import llm_tool, logger
@@ -12,6 +13,7 @@ from astrbot.api.provider import LLMResponse, ProviderRequest
 from astrbot.api.star import Context, Star
 
 from .backend.auto_collect import AutoCollectManager
+from .backend.compose import ComposeService, ComposeSettings
 from .backend.packs.categories import CategoryManager
 from .backend.packs.images import IMAGE_EXTENSIONS
 from .backend.semantic.index import EmbeddingAdapter, index_is_ready
@@ -38,6 +40,10 @@ MEME_PROMPT_MARKER_START = "<!-- meme_manager_prompt:start -->"
 MEME_PROMPT_MARKER_END = "<!-- meme_manager_prompt:end -->"
 SEMANTIC_PROMPT_MARKER_START = "<!-- meme_manager_semantic_prompt:start -->"
 SEMANTIC_PROMPT_MARKER_END = "<!-- meme_manager_semantic_prompt:end -->"
+COMPOSE_PROMPT_MARKER_START = "<!-- meme_manager_compose_prompt:start -->"
+COMPOSE_PROMPT_MARKER_END = "<!-- meme_manager_compose_prompt:end -->"
+COMPOSE_TOOL_NAME = "compose_sticker"
+SEARCH_TOOL_NAME = "search_memes"
 PLUGIN_NAME = "meme_manager"
 WEBUI_LOG_PREFIX = f"[{PLUGIN_NAME}][WebUI]"
 
@@ -275,6 +281,9 @@ class MemeSender(Star, WebAPIMixin, CommandMixin, EventHandlerMixin):
             )
         )
 
+        # 底图配字合成：与图库检索二选一，未命中的轮次完全不暴露合成工具
+        self.compose_service = self._build_compose_service()
+
         # 构建表情包提示词
         self.sys_prompt_add = ""
         self.persona_base_prompts = {}
@@ -375,6 +384,139 @@ class MemeSender(Star, WebAPIMixin, CommandMixin, EventHandlerMixin):
     ):
         value = self._read_path(primary_path)
         return default if value is None else value
+
+    # ------------------------------------------------------------ 底图配字合成
+
+    def _build_compose_service(self) -> ComposeService | None:
+        """按配置构建合成服务；未启用时返回 None，整条链路零开销。"""
+        if not bool(self._read_config_value(("compose", "enabled"), default=False)):
+            return None
+
+        from .config import PLUGIN_DIR
+
+        def _as_int(value, fallback: int, low: int, high: int) -> int:
+            """配置页允许手填，越界值夹到安全区间，避免渲染出 0 像素画布。"""
+            try:
+                number = int(value)
+            except (TypeError, ValueError):
+                return fallback
+            return max(low, min(high, number))
+
+        settings = ComposeSettings(
+            enabled=True,
+            session_ratio=_as_int(
+                self._read_config_value(("compose", "session_ratio"), default=30),
+                30,
+                0,
+                100,
+            ),
+            max_chars=_as_int(
+                self._read_config_value(("compose", "max_chars"), default=8), 8, 1, 16
+            ),
+            font=str(self._read_config_value(("compose", "font"), default="") or ""),
+            canvas=_as_int(
+                self._read_config_value(("compose", "canvas"), default=512),
+                512,
+                256,
+                1024,
+            ),
+        )
+        service = ComposeService(
+            base_root=PLUGIN_DIR / "stamp_base",
+            font_dir=PLUGIN_DIR / "stamp_base" / "fonts",
+            output_dir=PLUGIN_DATA_DIR / "compose",
+            settings=settings,
+        )
+        if not service.available:
+            logger.warning(
+                "[meme_manager] 合成功能已开启，但底图或清单缺失：%s",
+                PLUGIN_DIR / "stamp_base",
+            )
+            return None
+        logger.info(
+            "[meme_manager] 合成已启用：底图 %d 张，会话命中率 %d%%",
+            len(service.library.all()),
+            settings.ratio,
+        )
+        return service
+
+    def _compose_bot_ids(self) -> set[str]:
+        raw = str(self._read_config_value(("compose", "bot_ids"), default="") or "")
+        return {item.strip() for item in re.split(r"[,，\s]+", raw) if item.strip()}
+
+    def _compose_bot_allowed(self, event: AstrMessageEvent) -> bool:
+        """白名单为空表示不限制；填了就只有列出的 bot 会自造表情。"""
+        allowed = self._compose_bot_ids()
+        if not allowed:
+            return True
+        self_id = ""
+        get_self_id = getattr(event, "get_self_id", None)
+        if callable(get_self_id):
+            try:
+                self_id = str(get_self_id() or "").strip()
+            except Exception:
+                self_id = ""
+        if not self_id:
+            self_id = str(getattr(event, "self_id", "") or "").strip()
+        if not self_id:
+            # 拿不到自身账号时保守放行白名单外的 bot 太危险，直接判否
+            logger.debug("[meme_manager] 无法解析 bot 自身 QQ 号，本轮跳过合成")
+            return False
+        return self_id in allowed
+
+    def _compose_should_activate(self, event: AstrMessageEvent) -> bool:
+        """本轮是否走合成路径，结果缓存到事件上供后续钩子复用。
+
+        同一轮只会掷一次骰——``on_llm_request`` 可能因重试被多次触发，
+        每次重掷会让实际命中率翻倍。
+        """
+        cached = event.get_extra("meme_manager_compose_active")
+        if cached is not None:
+            return bool(cached)
+
+        active = False
+        if self.compose_service is not None and self._compose_bot_allowed(event):
+            session_key = str(
+                getattr(event, "unified_msg_origin", "")
+                or getattr(event, "session_id", "")
+                or ""
+            )
+            active = self.compose_service.should_compose(session_key)
+            if active:
+                message_id = str(
+                    getattr(getattr(event, "message_obj", None), "message_id", "") or ""
+                )
+                # 每轮一个新种子：同一句在不同轮次会换版式、配色和底图
+                event.set_extra(
+                    "meme_manager_compose_variation",
+                    f"{session_key}|{message_id}|{time.time_ns()}",
+                )
+                logger.info("[meme_manager] 本轮走底图配字，会话=%s", session_key)
+        event.set_extra("meme_manager_compose_active", active)
+        return active
+
+    @staticmethod
+    def _compose_system_prompt() -> str:
+        return (
+            f"\n\n{COMPOSE_PROMPT_MARKER_START}\n"
+            "[本轮配图方式]\n"
+            "这一轮你只能自己「写」一张表情包，不能检索图库。"
+            "当你觉得需要一张图来接话、表态或自嘲时，调用 compose_sticker 生成。\n"
+            "[写什么]\n"
+            "text 是画在角色贴图上的那句台词，不是你要发给用户的话。"
+            "它应当短、口语、有情绪，2 到 6 个字最佳，最多 8 个字；"
+            "不要句号，不要解释，不要照抄用户原话，不要写「我很难过」这类旁白式描述，"
+            "而要写角色会脱口而出的那句，例如「真的假的」「别问了」「我不会安慰人」。"
+            "允许 ？！… 这类标点，emoji 会被丢弃。\n"
+            "[怎么发]\n"
+            "本轮最多生成一张。工具返回 ok=true 时，把返回的 id 原样包在 && 中"
+            "并独占一行，放在正文末尾；也可以只回复这个标记。"
+            "生成失败时正常用文字回复，不要反复重试，也不要提工具或报错内容。\n"
+            "[边界]\n"
+            "用户明确要求不要配图时不要调用。"
+            "不要在正文里描述你选了哪张图、写了什么字或说明了生成过程。\n"
+            f"{COMPOSE_PROMPT_MARKER_END}"
+        )
 
     def _get_provider_config(self, provider_key: str) -> dict:
         provider_config = self._read_path(("storage", "providers", provider_key), {})
@@ -638,8 +780,12 @@ class MemeSender(Star, WebAPIMixin, CommandMixin, EventHandlerMixin):
         )
 
     @staticmethod
-    def _remove_semantic_tool(req: ProviderRequest) -> None:
-        """语义模式不可用时，从当前请求的工具集中移除搜索工具。"""
+    def _reset_and_remove_tools(req: ProviderRequest, *names: str) -> None:
+        """把工具集恢复成全量后再摘掉指定工具。
+
+        AstrBot 的 ``func_tool`` 在请求间是共享的，直接 remove 会污染其他会话，
+        所以必须先取一份全量副本再删。
+        """
         tool_set = getattr(req, "func_tool", None)
         get_full_tool_set = getattr(tool_set, "get_full_tool_set", None)
         if callable(get_full_tool_set):
@@ -647,7 +793,25 @@ class MemeSender(Star, WebAPIMixin, CommandMixin, EventHandlerMixin):
             tool_set = req.func_tool
         remove_tool = getattr(tool_set, "remove_tool", None)
         if callable(remove_tool):
-            remove_tool("search_memes")
+            for name in names:
+                remove_tool(name)
+
+    @staticmethod
+    def _remove_semantic_tool(req: ProviderRequest) -> None:
+        """语义模式不可用时，从当前请求的工具集中移除搜索工具。"""
+        MemeSender._reset_and_remove_tools(req, SEARCH_TOOL_NAME)
+
+    @staticmethod
+    def _remove_tool_only(req: ProviderRequest, name: str) -> None:
+        """只摘掉一个工具，不重置工具集（避免把别的分支刚删掉又加回来）。"""
+        tool_set = getattr(req, "func_tool", None)
+        remove_tool = getattr(tool_set, "remove_tool", None)
+        if not callable(remove_tool):
+            return
+        try:
+            remove_tool(name)
+        except Exception:
+            logger.debug("[meme_manager] 移除工具 %s 失败", name, exc_info=True)
 
     def _semantic_mode_active(self, event: AstrMessageEvent | None) -> bool:
         """判断事件是否仍指向已验证的语义表情包。
@@ -712,6 +876,11 @@ class MemeSender(Star, WebAPIMixin, CommandMixin, EventHandlerMixin):
             rf"{re.escape(SEMANTIC_PROMPT_MARKER_END)}"
         )
         prompt = semantic_marker_pattern.sub("", prompt).rstrip()
+        compose_marker_pattern = re.compile(
+            rf"\n*{re.escape(COMPOSE_PROMPT_MARKER_START)}[\s\S]*?"
+            rf"{re.escape(COMPOSE_PROMPT_MARKER_END)}"
+        )
+        prompt = compose_marker_pattern.sub("", prompt).rstrip()
         if self.sys_prompt_add and prompt.endswith(self.sys_prompt_add):
             prompt = prompt[: -len(self.sys_prompt_add)].rstrip()
         if not self.prompt_head:
@@ -835,6 +1004,52 @@ class MemeSender(Star, WebAPIMixin, CommandMixin, EventHandlerMixin):
             persona["prompt"] = self.persona_base_prompts[key]
 
     def _apply_request_prompt(
+        self, req: ProviderRequest, event: AstrMessageEvent | None = None
+    ) -> None:
+        """装配本轮的表情能力。
+
+        合成与图库检索是**互斥**的两条路径，在工具注入层就分开：
+        合成轮只保留 ``compose_sticker``，其余轮次只保留 ``search_memes``。
+        这样「一轮发两张图」在工具层面就不可能发生，而不是事后拦截。
+        """
+        if event is not None and self._compose_should_activate(event):
+            self._reset_and_remove_tools(req, SEARCH_TOOL_NAME)
+            req.system_prompt = (
+                self._strip_meme_prompt(req.system_prompt)
+                + self._compose_system_prompt()
+            )
+            # 同一轮可能因重试再次进入，已生成的候选必须保留
+            if not event.get_extra("meme_manager_compose_initialized"):
+                for key, value in self._compose_reset_extras().items():
+                    event.set_extra(key, value)
+                event.set_extra("meme_manager_compose_initialized", True)
+            return
+        try:
+            self._apply_meme_request_prompt(req, event)
+        finally:
+            self._remove_tool_only(req, COMPOSE_TOOL_NAME)
+
+    @staticmethod
+    def _compose_reset_extras() -> dict:
+        """合成轮要显式清空的检索状态，避免上一轮的候选泄漏进本轮。"""
+        return {
+            "meme_manager_semantic_active": False,
+            "meme_manager_semantic_mode": "",
+            "meme_manager_semantic_verified_pack_id": "",
+            "meme_manager_semantic_selected_ids": [],
+            "meme_manager_semantic_candidates": {},
+            "meme_manager_semantic_query": "",
+            "meme_manager_semantic_search_completed": False,
+            "meme_manager_semantic_response_processed": False,
+            "meme_manager_image_only_reply": False,
+            "meme_manager_stream_filtered": False,
+            "meme_manager_compose_candidates": {},
+            "meme_manager_compose_selected": [],
+            "meme_manager_compose_rendered": False,
+            "found_emotions": None,
+        }
+
+    def _apply_meme_request_prompt(
         self, req: ProviderRequest, event: AstrMessageEvent | None = None
     ) -> None:
         semantic_mode = ""
@@ -985,6 +1200,80 @@ class MemeSender(Star, WebAPIMixin, CommandMixin, EventHandlerMixin):
         except Exception as exc:
             logger.error("语义表情查询失败: %s", exc, exc_info=True)
             return dumps_result({"ok": False, "reason": "语义查询失败"})
+
+    @llm_tool(name="compose_sticker")
+    async def compose_sticker_tool(self, event: AstrMessageEvent, text: str) -> str:
+        """Draw a caption onto a transparent character sticker and return its id.
+
+        Args:
+            text(string): The short line to write on the sticker — the character's
+                own words, 2 to 6 Chinese characters ideally, 8 at most. Punctuation
+                like ？！… is allowed; emoji are dropped. Not a description of the
+                emotion and not a summary of the user's message.
+
+        Returns:
+            JSON with ok, id and instruction. Nothing is sent until the id is
+            emitted between && on its own line.
+        """
+        if not bool(event.get_extra("meme_manager_compose_active")):
+            return dumps_result({"ok": False, "reason": "本轮不走自造表情"})
+        if bool(event.get_extra("meme_manager_compose_rendered")):
+            return dumps_result(
+                {
+                    "ok": False,
+                    "reason": "本轮已经生成过一张，请直接使用上次返回的 id，不要重复生成",
+                }
+            )
+        event.set_extra("meme_manager_compose_rendered", True)
+
+        service = self.compose_service
+        if service is None:
+            return dumps_result({"ok": False, "reason": "合成不可用"})
+
+        variation = str(event.get_extra("meme_manager_compose_variation") or "")
+        session_key = str(getattr(event, "unified_msg_origin", "") or "")
+        try:
+            result = await service.render(
+                text,
+                variation or "default",
+                session_key,
+            )
+        except Exception as exc:  # noqa: BLE001 - 失败要降级成文字回复
+            logger.error("[meme_manager] 合成表情失败: %s", exc, exc_info=True)
+            return dumps_result({"ok": False, "reason": "生成失败"})
+
+        if not result.get("ok"):
+            logger.info(
+                "[meme_manager] 合成被拒绝: %s (text=%r)",
+                result.get("reason"),
+                text,
+            )
+            return dumps_result({"ok": False, "reason": result.get("reason")})
+
+        candidates = dict(event.get_extra("meme_manager_compose_candidates") or {})
+        candidates[str(result["id"])] = {
+            "path": str(result["path"]),
+            "caption": str(result["caption"]),
+        }
+        event.set_extra("meme_manager_compose_candidates", candidates)
+        logger.info(
+            "[meme_manager] 合成表情: %s (%s/%s/%s)",
+            result["caption"],
+            result["font"],
+            result["layout"],
+            result["palette"],
+        )
+        return dumps_result(
+            {
+                "ok": True,
+                "id": result["id"],
+                "chars": len(result["caption"]),
+                "instruction": (
+                    "把 id 原样包在 && 中，独占一行放在正文末尾；"
+                    "也可以只回复这个标记。不要在正文里说明你画了什么。"
+                ),
+            }
+        )
 
     async def terminate(self):
         if getattr(self, "auto_collect_manager", None):
