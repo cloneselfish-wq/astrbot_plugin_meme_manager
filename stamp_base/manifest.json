@@ -1,0 +1,2127 @@
+{
+ "schema": 2,
+ "source": "https://haneoka.org",
+ "fetchedAt": "2026-10-23T13:57:18+0800",
+ "items": [
+  {
+   "id": "stamp_illust_tomori_001",
+   "stampId": "1",
+   "file": "stamp_illust_tomori_001.png",
+   "sha256": "8d7601262c1624f0fcaa4e44cf6084a041e18f32f3cfe782ae15fc1bfb335c93",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/8d7601262c1624f0fcaa4e44cf6084a041e18f32f3cfe782ae15fc1bfb335c93.png",
+   "size": [
+    314,
+    414
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 99127,
+   "nameZh": "灯的表情1",
+   "nameJa": "燈スタンプ1",
+   "characters": [
+    "高松灯"
+   ],
+   "characterIds": [
+    "1"
+   ],
+   "centroid": [
+    0.522,
+    0.478
+   ],
+   "coverage": 0.738
+  },
+  {
+   "id": "stamp_illust_tomori_002",
+   "stampId": "2",
+   "file": "stamp_illust_tomori_002.png",
+   "sha256": "1170c7bbcc5833f6b6b3aa9b27ae57b16c893021fa4b68eff34cad81ddaf1c46",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/1170c7bbcc5833f6b6b3aa9b27ae57b16c893021fa4b68eff34cad81ddaf1c46.png",
+   "size": [
+    410,
+    406
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 126740,
+   "nameZh": "灯的表情2",
+   "nameJa": "燈スタンプ2",
+   "characters": [
+    "高松灯"
+   ],
+   "characterIds": [
+    "1"
+   ],
+   "centroid": [
+    0.522,
+    0.482
+   ],
+   "coverage": 0.591
+  },
+  {
+   "id": "stamp_illust_anon_001",
+   "stampId": "3",
+   "file": "stamp_illust_anon_001.png",
+   "sha256": "4a063006de5af1684ce40fee4a2bdce4ee31c21bdbebdfd094552643be5cfd21",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/4a063006de5af1684ce40fee4a2bdce4ee31c21bdbebdfd094552643be5cfd21.png",
+   "size": [
+    478,
+    440
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 142153,
+   "nameZh": "爱音的表情1",
+   "nameJa": "愛音スタンプ1",
+   "characters": [
+    "千早爱音"
+   ],
+   "characterIds": [
+    "2"
+   ],
+   "centroid": [
+    0.47,
+    0.509
+   ],
+   "coverage": 0.637
+  },
+  {
+   "id": "stamp_illust_anon_002",
+   "stampId": "4",
+   "file": "stamp_illust_anon_002.png",
+   "sha256": "536b8d50ca272d78fa58441bc0e6177146057001f193ec0ab705854ecea6ce84",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/536b8d50ca272d78fa58441bc0e6177146057001f193ec0ab705854ecea6ce84.png",
+   "size": [
+    456,
+    394
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 121998,
+   "nameZh": "爱音的表情2",
+   "nameJa": "愛音スタンプ2",
+   "characters": [
+    "千早爱音"
+   ],
+   "characterIds": [
+    "2"
+   ],
+   "centroid": [
+    0.485,
+    0.46
+   ],
+   "coverage": 0.631
+  },
+  {
+   "id": "stamp_illust_rana_001",
+   "stampId": "5",
+   "file": "stamp_illust_rana_001.png",
+   "sha256": "0db32f702e7f86db9eecfda256f791d1976e853144411eb2ab23bf4f8e04f605",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/0db32f702e7f86db9eecfda256f791d1976e853144411eb2ab23bf4f8e04f605.png",
+   "size": [
+    341,
+    433
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 91904,
+   "nameZh": "乐奈的表情1",
+   "nameJa": "楽奈スタンプ1",
+   "characters": [
+    "要乐奈"
+   ],
+   "characterIds": [
+    "3"
+   ],
+   "centroid": [
+    0.477,
+    0.44
+   ],
+   "coverage": 0.665
+  },
+  {
+   "id": "stamp_illust_rana_002",
+   "stampId": "6",
+   "file": "stamp_illust_rana_002.png",
+   "sha256": "052fa456810d1bfaa106aeef157f35a8969d525f746051fd00aa003a416d11da",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/052fa456810d1bfaa106aeef157f35a8969d525f746051fd00aa003a416d11da.png",
+   "size": [
+    383,
+    471
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 112870,
+   "nameZh": "乐奈的表情2",
+   "nameJa": "楽奈スタンプ2",
+   "characters": [
+    "要乐奈"
+   ],
+   "characterIds": [
+    "3"
+   ],
+   "centroid": [
+    0.51,
+    0.46
+   ],
+   "coverage": 0.685
+  },
+  {
+   "id": "stamp_illust_soyo_001",
+   "stampId": "7",
+   "file": "stamp_illust_soyo_001.png",
+   "sha256": "1b20ffcabe37b85300dd350b29491c6ca14e1b8760a90c31182feb49fc7357b0",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/1b20ffcabe37b85300dd350b29491c6ca14e1b8760a90c31182feb49fc7357b0.png",
+   "size": [
+    356,
+    441
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 109980,
+   "nameZh": "爽世的表情1",
+   "nameJa": "そよスタンプ1",
+   "characters": [
+    "长崎爽世"
+   ],
+   "characterIds": [
+    "4"
+   ],
+   "centroid": [
+    0.486,
+    0.495
+   ],
+   "coverage": 0.756
+  },
+  {
+   "id": "stamp_illust_soyo_002",
+   "stampId": "8",
+   "file": "stamp_illust_soyo_002.png",
+   "sha256": "fbe14b75d8773cdc9320bc3a37159dccd5feade7598542eed2eab1aca9a3cc30",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/fbe14b75d8773cdc9320bc3a37159dccd5feade7598542eed2eab1aca9a3cc30.png",
+   "size": [
+    387,
+    446
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 125882,
+   "nameZh": "爽世的表情2",
+   "nameJa": "そよスタンプ2",
+   "characters": [
+    "长崎爽世"
+   ],
+   "characterIds": [
+    "4"
+   ],
+   "centroid": [
+    0.502,
+    0.495
+   ],
+   "coverage": 0.794
+  },
+  {
+   "id": "stamp_illust_taki_001",
+   "stampId": "9",
+   "file": "stamp_illust_taki_001.png",
+   "sha256": "db93c2d4fb20ad06bffcc300cc3d7095e0b9631661c373c162872c0399eea18c",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/db93c2d4fb20ad06bffcc300cc3d7095e0b9631661c373c162872c0399eea18c.png",
+   "size": [
+    422,
+    453
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 106722,
+   "nameZh": "立希的表情1",
+   "nameJa": "立希スタンプ1",
+   "characters": [
+    "椎名立希"
+   ],
+   "characterIds": [
+    "5"
+   ],
+   "centroid": [
+    0.529,
+    0.498
+   ],
+   "coverage": 0.673
+  },
+  {
+   "id": "stamp_illust_taki_002",
+   "stampId": "10",
+   "file": "stamp_illust_taki_002.png",
+   "sha256": "676bc9a7c68f1c7dbbf8ab6dfdd246976f28dc45ef85e66429f397d723a09bef",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/676bc9a7c68f1c7dbbf8ab6dfdd246976f28dc45ef85e66429f397d723a09bef.png",
+   "size": [
+    356,
+    436
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 100675,
+   "nameZh": "立希的表情2",
+   "nameJa": "立希スタンプ2",
+   "characters": [
+    "椎名立希"
+   ],
+   "characterIds": [
+    "5"
+   ],
+   "centroid": [
+    0.486,
+    0.518
+   ],
+   "coverage": 0.802
+  },
+  {
+   "id": "stamp_illust_uika_001",
+   "stampId": "11",
+   "file": "stamp_illust_uika_001.png",
+   "sha256": "70c293d6e05f02bef8dcfea4e0a1b68a00586eea3f7226fb0461efa37f64811c",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/70c293d6e05f02bef8dcfea4e0a1b68a00586eea3f7226fb0461efa37f64811c.png",
+   "size": [
+    375,
+    433
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 108780,
+   "nameZh": "初华的表情1",
+   "nameJa": "初華スタンプ1",
+   "characters": [
+    "Doloris / 三角初华"
+   ],
+   "characterIds": [
+    "6"
+   ],
+   "centroid": [
+    0.484,
+    0.486
+   ],
+   "coverage": 0.74
+  },
+  {
+   "id": "stamp_illust_uika_002",
+   "stampId": "12",
+   "file": "stamp_illust_uika_002.png",
+   "sha256": "6100f81364e4e6e6dea5f56c05c514d7ff36386f4f55d756b81e05b41787e91c",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/6100f81364e4e6e6dea5f56c05c514d7ff36386f4f55d756b81e05b41787e91c.png",
+   "size": [
+    383,
+    448
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 114912,
+   "nameZh": "初华的表情2",
+   "nameJa": "初華スタンプ2",
+   "characters": [
+    "Doloris / 三角初华"
+   ],
+   "characterIds": [
+    "6"
+   ],
+   "centroid": [
+    0.49,
+    0.492
+   ],
+   "coverage": 0.694
+  },
+  {
+   "id": "stamp_illust_mutsumi_001",
+   "stampId": "13",
+   "file": "stamp_illust_mutsumi_001.png",
+   "sha256": "b17905781ea800ea6074c55aa337f9b8db011c2c3cd00972836490f096b75e90",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/b17905781ea800ea6074c55aa337f9b8db011c2c3cd00972836490f096b75e90.png",
+   "size": [
+    344,
+    504
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 140053,
+   "nameZh": "睦的表情1",
+   "nameJa": "睦スタンプ1",
+   "characters": [
+    "Mortis / 若叶睦"
+   ],
+   "characterIds": [
+    "7"
+   ],
+   "centroid": [
+    0.504,
+    0.5
+   ],
+   "coverage": 0.828
+  },
+  {
+   "id": "stamp_illust_mutsumi_002",
+   "stampId": "14",
+   "file": "stamp_illust_mutsumi_002.png",
+   "sha256": "d89bbe4c12535fcf9cd8580afa270c8963101130b04ceed3d8af0264eb5e7c8c",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/d89bbe4c12535fcf9cd8580afa270c8963101130b04ceed3d8af0264eb5e7c8c.png",
+   "size": [
+    363,
+    423
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 132170,
+   "nameZh": "睦的表情2",
+   "nameJa": "睦スタンプ2",
+   "characters": [
+    "Mortis / 若叶睦"
+   ],
+   "characterIds": [
+    "7"
+   ],
+   "centroid": [
+    0.522,
+    0.519
+   ],
+   "coverage": 0.775
+  },
+  {
+   "id": "stamp_illust_umiri_001",
+   "stampId": "15",
+   "file": "stamp_illust_umiri_001.png",
+   "sha256": "aff81f127c3c890af200c440e34c7fbf1ee11a8ad2b6bd43b7a35b1372f70f65",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/aff81f127c3c890af200c440e34c7fbf1ee11a8ad2b6bd43b7a35b1372f70f65.png",
+   "size": [
+    358,
+    448
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 97552,
+   "nameZh": "海铃的表情1",
+   "nameJa": "海鈴スタンプ1",
+   "characters": [
+    "Timoris / 八幡海铃"
+   ],
+   "characterIds": [
+    "8"
+   ],
+   "centroid": [
+    0.512,
+    0.459
+   ],
+   "coverage": 0.658
+  },
+  {
+   "id": "stamp_illust_umiri_002",
+   "stampId": "16",
+   "file": "stamp_illust_umiri_002.png",
+   "sha256": "a5c35d960368b26b53d3f9a87cfb4c2a67cbfe535d0d51cac61891e4a2d0d9de",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/a5c35d960368b26b53d3f9a87cfb4c2a67cbfe535d0d51cac61891e4a2d0d9de.png",
+   "size": [
+    441,
+    403
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 128509,
+   "nameZh": "海铃的表情2",
+   "nameJa": "海鈴スタンプ2",
+   "characters": [
+    "Timoris / 八幡海铃"
+   ],
+   "characterIds": [
+    "8"
+   ],
+   "centroid": [
+    0.504,
+    0.542
+   ],
+   "coverage": 0.677
+  },
+  {
+   "id": "stamp_illust_nyamu_001",
+   "stampId": "17",
+   "file": "stamp_illust_nyamu_001.png",
+   "sha256": "2630cf7356eff07610f5dfd0a0164e5990c3c7133df03e34efac1418deb74adb",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/2630cf7356eff07610f5dfd0a0164e5990c3c7133df03e34efac1418deb74adb.png",
+   "size": [
+    369,
+    450
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 119235,
+   "nameZh": "若麦的表情1",
+   "nameJa": "にゃむスタンプ1",
+   "characters": [
+    "Amoris / 祐天寺若麦"
+   ],
+   "characterIds": [
+    "9"
+   ],
+   "centroid": [
+    0.506,
+    0.439
+   ],
+   "coverage": 0.654
+  },
+  {
+   "id": "stamp_illust_nyamu_002",
+   "stampId": "18",
+   "file": "stamp_illust_nyamu_002.png",
+   "sha256": "2875491bf66335892b5b74c50e6c52d398cd430bac607260b3e60f85887c6fe8",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/2875491bf66335892b5b74c50e6c52d398cd430bac607260b3e60f85887c6fe8.png",
+   "size": [
+    354,
+    415
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 98650,
+   "nameZh": "若麦的表情2",
+   "nameJa": "にゃむスタンプ2",
+   "characters": [
+    "Amoris / 祐天寺若麦"
+   ],
+   "characterIds": [
+    "9"
+   ],
+   "centroid": [
+    0.513,
+    0.461
+   ],
+   "coverage": 0.659
+  },
+  {
+   "id": "stamp_illust_sakiko_001",
+   "stampId": "19",
+   "file": "stamp_illust_sakiko_001.png",
+   "sha256": "01faa47bd2c91f094db4d2fce502e62055a2d798dba69ac74c0b62137770dc85",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/01faa47bd2c91f094db4d2fce502e62055a2d798dba69ac74c0b62137770dc85.png",
+   "size": [
+    477,
+    430
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 175080,
+   "nameZh": "祥子的表情1",
+   "nameJa": "祥子スタンプ1",
+   "characters": [
+    "Oblivionis / 丰川祥子"
+   ],
+   "characterIds": [
+    "10"
+   ],
+   "centroid": [
+    0.504,
+    0.534
+   ],
+   "coverage": 0.661
+  },
+  {
+   "id": "stamp_illust_sakiko_002",
+   "stampId": "20",
+   "file": "stamp_illust_sakiko_002.png",
+   "sha256": "9c3ecceb96228636fcdabf950a12952d4daaba36f7dbcbf1f0ea2d057434e898",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/9c3ecceb96228636fcdabf950a12952d4daaba36f7dbcbf1f0ea2d057434e898.png",
+   "size": [
+    428,
+    415
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 152847,
+   "nameZh": "祥子的表情2",
+   "nameJa": "祥子スタンプ2",
+   "characters": [
+    "Oblivionis / 丰川祥子"
+   ],
+   "characterIds": [
+    "10"
+   ],
+   "centroid": [
+    0.486,
+    0.53
+   ],
+   "coverage": 0.699
+  },
+  {
+   "id": "stamp_illust_arale_001",
+   "stampId": "21",
+   "file": "stamp_illust_arale_001.png",
+   "sha256": "0e15228d2331a88de0ae2cec2d60bc49f470dd6be2caf372c0540d24218f7585",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/0e15228d2331a88de0ae2cec2d60bc49f470dd6be2caf372c0540d24218f7585.png",
+   "size": [
+    500,
+    375
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 144374,
+   "nameZh": "阿拉蕾的表情1",
+   "nameJa": "あられスタンプ1",
+   "characters": [
+    "仲町阿拉蕾"
+   ],
+   "characterIds": [
+    "11"
+   ],
+   "centroid": [
+    0.503,
+    0.53
+   ],
+   "coverage": 0.607
+  },
+  {
+   "id": "stamp_illust_arale_002",
+   "stampId": "22",
+   "file": "stamp_illust_arale_002.png",
+   "sha256": "fb7b4ebd5c746a0377f97449bbce056df0798e9446c22d71bd53dbc11e80438f",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/fb7b4ebd5c746a0377f97449bbce056df0798e9446c22d71bd53dbc11e80438f.png",
+   "size": [
+    482,
+    378
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 129726,
+   "nameZh": "阿拉蕾的表情2",
+   "nameJa": "あられスタンプ2",
+   "characters": [
+    "仲町阿拉蕾"
+   ],
+   "characterIds": [
+    "11"
+   ],
+   "centroid": [
+    0.533,
+    0.496
+   ],
+   "coverage": 0.559
+  },
+  {
+   "id": "stamp_illust_nonoka_001",
+   "stampId": "23",
+   "file": "stamp_illust_nonoka_001.png",
+   "sha256": "d2b37e375a8e616c07f3a4ab3ada1e467f9440e133fce6630c2e18ca685c2e91",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/d2b37e375a8e616c07f3a4ab3ada1e467f9440e133fce6630c2e18ca685c2e91.png",
+   "size": [
+    373,
+    424
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 141678,
+   "nameZh": "野乃花的表情1",
+   "nameJa": "ののかスタンプ1",
+   "characters": [
+    "宫永野乃花"
+   ],
+   "characterIds": [
+    "12"
+   ],
+   "centroid": [
+    0.494,
+    0.537
+   ],
+   "coverage": 0.694
+  },
+  {
+   "id": "stamp_illust_nonoka_002",
+   "stampId": "24",
+   "file": "stamp_illust_nonoka_002.png",
+   "sha256": "eb394eb42d6b2369f0ec9b73c6a9066e0790079b1b3cabeef4c6f08dde16cf1b",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/eb394eb42d6b2369f0ec9b73c6a9066e0790079b1b3cabeef4c6f08dde16cf1b.png",
+   "size": [
+    346,
+    387
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 115551,
+   "nameZh": "野乃花的表情2",
+   "nameJa": "ののかスタンプ2",
+   "characters": [
+    "宫永野乃花"
+   ],
+   "characterIds": [
+    "12"
+   ],
+   "centroid": [
+    0.469,
+    0.516
+   ],
+   "coverage": 0.746
+  },
+  {
+   "id": "stamp_illust_ritsu_001",
+   "stampId": "25",
+   "file": "stamp_illust_ritsu_001.png",
+   "sha256": "58665dbcf5129a7347d244b2a916e112aea94e1b8157dd8309736a5318af92a3",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/58665dbcf5129a7347d244b2a916e112aea94e1b8157dd8309736a5318af92a3.png",
+   "size": [
+    302,
+    393
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 90002,
+   "nameZh": "律的表情1",
+   "nameJa": "律スタンプ1",
+   "characters": [
+    "峰月律"
+   ],
+   "characterIds": [
+    "13"
+   ],
+   "centroid": [
+    0.5,
+    0.469
+   ],
+   "coverage": 0.711
+  },
+  {
+   "id": "stamp_illust_ritsu_002",
+   "stampId": "26",
+   "file": "stamp_illust_ritsu_002.png",
+   "sha256": "ea15cc320cb21d1b490e14e3a20deb7ea674339553d5c4a136ff3682dda1ce9b",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/ea15cc320cb21d1b490e14e3a20deb7ea674339553d5c4a136ff3682dda1ce9b.png",
+   "size": [
+    510,
+    403
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 134207,
+   "nameZh": "律的表情2",
+   "nameJa": "律スタンプ2",
+   "characters": [
+    "峰月律"
+   ],
+   "characterIds": [
+    "13"
+   ],
+   "centroid": [
+    0.506,
+    0.454
+   ],
+   "coverage": 0.694
+  },
+  {
+   "id": "stamp_illust_miyako_001",
+   "stampId": "27",
+   "file": "stamp_illust_miyako_001.png",
+   "sha256": "774c800d1dc68a1e3956abef771d58d0188338a237984f000fa1b3d32c4000aa",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/774c800d1dc68a1e3956abef771d58d0188338a237984f000fa1b3d32c4000aa.png",
+   "size": [
+    352,
+    368
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 98347,
+   "nameZh": "都子的表情1",
+   "nameJa": "都子スタンプ1",
+   "characters": [
+    "藤都子"
+   ],
+   "characterIds": [
+    "14"
+   ],
+   "centroid": [
+    0.49,
+    0.469
+   ],
+   "coverage": 0.731
+  },
+  {
+   "id": "stamp_illust_miyako_002",
+   "stampId": "28",
+   "file": "stamp_illust_miyako_002.png",
+   "sha256": "3caaa0606c98b2c654eb35c368c5f928d94885ff2eca409d3ecfe30154b0d05a",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/3caaa0606c98b2c654eb35c368c5f928d94885ff2eca409d3ecfe30154b0d05a.png",
+   "size": [
+    373,
+    388
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 104590,
+   "nameZh": "都子的表情2",
+   "nameJa": "都子スタンプ2",
+   "characters": [
+    "藤都子"
+   ],
+   "characterIds": [
+    "14"
+   ],
+   "centroid": [
+    0.492,
+    0.489
+   ],
+   "coverage": 0.696
+  },
+  {
+   "id": "stamp_illust_yuno_001",
+   "stampId": "29",
+   "file": "stamp_illust_yuno_001.png",
+   "sha256": "585bc623f47cd3e1d08caddd77d6248399da63b279524b0c0f6eaccb57b35fb1",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/585bc623f47cd3e1d08caddd77d6248399da63b279524b0c0f6eaccb57b35fb1.png",
+   "size": [
+    327,
+    427
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 117664,
+   "nameZh": "由乃的表情1",
+   "nameJa": "ユノスタンプ1",
+   "characters": [
+    "千石由乃"
+   ],
+   "characterIds": [
+    "15"
+   ],
+   "centroid": [
+    0.514,
+    0.503
+   ],
+   "coverage": 0.73
+  },
+  {
+   "id": "stamp_illust_yuno_002",
+   "stampId": "30",
+   "file": "stamp_illust_yuno_002.png",
+   "sha256": "cf18200e3dadfba26f456862dbc5ac8c700af7c28fb0c258e0a7f7fd4ea79520",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/cf18200e3dadfba26f456862dbc5ac8c700af7c28fb0c258e0a7f7fd4ea79520.png",
+   "size": [
+    419,
+    398
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 136940,
+   "nameZh": "由乃的表情2",
+   "nameJa": "ユノスタンプ2",
+   "characters": [
+    "千石由乃"
+   ],
+   "characterIds": [
+    "15"
+   ],
+   "centroid": [
+    0.482,
+    0.507
+   ],
+   "coverage": 0.716
+  },
+  {
+   "id": "stamp_illust_hotaru_001",
+   "stampId": "31",
+   "file": "stamp_illust_hotaru_001.png",
+   "sha256": "7f8b181406a8b17fbe917f97f0820dda467707aba4299fd3c93f4dda33b7b928",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/7f8b181406a8b17fbe917f97f0820dda467707aba4299fd3c93f4dda33b7b928.png",
+   "size": [
+    410,
+    448
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 147904,
+   "nameZh": "萤的表情1",
+   "nameJa": "蛍スタンプ1",
+   "characters": [
+    "汐见萤"
+   ],
+   "characterIds": [
+    "16"
+   ],
+   "centroid": [
+    0.488,
+    0.518
+   ],
+   "coverage": 0.742
+  },
+  {
+   "id": "stamp_illust_hotaru_002",
+   "stampId": "32",
+   "file": "stamp_illust_hotaru_002.png",
+   "sha256": "ca0b92ae6bc547d465f9ef3bf2e8795c36450fd5f0aae8b75ccbd71a9d9c651e",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/ca0b92ae6bc547d465f9ef3bf2e8795c36450fd5f0aae8b75ccbd71a9d9c651e.png",
+   "size": [
+    410,
+    352
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 108452,
+   "nameZh": "萤的表情2",
+   "nameJa": "蛍スタンプ2",
+   "characters": [
+    "汐见萤"
+   ],
+   "characterIds": [
+    "16"
+   ],
+   "centroid": [
+    0.511,
+    0.538
+   ],
+   "coverage": 0.721
+  },
+  {
+   "id": "stamp_illust_natsume_001",
+   "stampId": "33",
+   "file": "stamp_illust_natsume_001.png",
+   "sha256": "1d2517ec39a7c3ae379188d4e9abe5e1ff05ad83c2bef08d55cc2d3d01a97050",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/1d2517ec39a7c3ae379188d4e9abe5e1ff05ad83c2bef08d55cc2d3d01a97050.png",
+   "size": [
+    351,
+    413
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 137827,
+   "nameZh": "枣的表情1",
+   "nameJa": "なつめスタンプ1",
+   "characters": [
+    "伊泽枣"
+   ],
+   "characterIds": [
+    "17"
+   ],
+   "centroid": [
+    0.498,
+    0.508
+   ],
+   "coverage": 0.766
+  },
+  {
+   "id": "stamp_illust_natsume_002",
+   "stampId": "34",
+   "file": "stamp_illust_natsume_002.png",
+   "sha256": "855a07968dd152f2d7bc3e518b19a75bdc43632c5539bc46386f8ce37602bdb1",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/855a07968dd152f2d7bc3e518b19a75bdc43632c5539bc46386f8ce37602bdb1.png",
+   "size": [
+    466,
+    473
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 166968,
+   "nameZh": "枣的表情2",
+   "nameJa": "なつめスタンプ2",
+   "characters": [
+    "伊泽枣"
+   ],
+   "characterIds": [
+    "17"
+   ],
+   "centroid": [
+    0.525,
+    0.481
+   ],
+   "coverage": 0.685
+  },
+  {
+   "id": "stamp_illust_nagi_001",
+   "stampId": "35",
+   "file": "stamp_illust_nagi_001.png",
+   "sha256": "43c5f3f81cda91d2ae2e8c4b8087208bfbe497d1d37b31968e75851b4ece39f5",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/43c5f3f81cda91d2ae2e8c4b8087208bfbe497d1d37b31968e75851b4ece39f5.png",
+   "size": [
+    349,
+    447
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 130879,
+   "nameZh": "凪的表情1",
+   "nameJa": "凪スタンプ1",
+   "characters": [
+    "琴平凪"
+   ],
+   "characterIds": [
+    "18"
+   ],
+   "centroid": [
+    0.513,
+    0.52
+   ],
+   "coverage": 0.823
+  },
+  {
+   "id": "stamp_illust_nagi_002",
+   "stampId": "36",
+   "file": "stamp_illust_nagi_002.png",
+   "sha256": "cdb8cf0cd0cc8a6e8dfd8edf7687e4fcf81cda5cca15d85c0dc157de77c2a900",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/cdb8cf0cd0cc8a6e8dfd8edf7687e4fcf81cda5cca15d85c0dc157de77c2a900.png",
+   "size": [
+    332,
+    417
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 104380,
+   "nameZh": "凪的表情2",
+   "nameJa": "凪スタンプ2",
+   "characters": [
+    "琴平凪"
+   ],
+   "characterIds": [
+    "18"
+   ],
+   "centroid": [
+    0.478,
+    0.505
+   ],
+   "coverage": 0.781
+  },
+  {
+   "id": "stamp_illust_mahoro_001",
+   "stampId": "37",
+   "file": "stamp_illust_mahoro_001.png",
+   "sha256": "1ce6959365e3baebc89e73ede55c350a31b02f27f935ce95e99566ad58a68d36",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/1ce6959365e3baebc89e73ede55c350a31b02f27f935ce95e99566ad58a68d36.png",
+   "size": [
+    402,
+    454
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 130290,
+   "nameZh": "茉幌的表情1",
+   "nameJa": "まほろスタンプ1",
+   "characters": [
+    "滨崎茉幌"
+   ],
+   "characterIds": [
+    "19"
+   ],
+   "centroid": [
+    0.485,
+    0.468
+   ],
+   "coverage": 0.683
+  },
+  {
+   "id": "stamp_illust_mahoro_002",
+   "stampId": "38",
+   "file": "stamp_illust_mahoro_002.png",
+   "sha256": "fa9d939a45a7ba0f3c5c3c17aab94372636a704db13bca209b487f4a050c429d",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/fa9d939a45a7ba0f3c5c3c17aab94372636a704db13bca209b487f4a050c429d.png",
+   "size": [
+    383,
+    494
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 117526,
+   "nameZh": "茉幌的表情2",
+   "nameJa": "まほろスタンプ2",
+   "characters": [
+    "滨崎茉幌"
+   ],
+   "characterIds": [
+    "19"
+   ],
+   "centroid": [
+    0.498,
+    0.481
+   ],
+   "coverage": 0.732
+  },
+  {
+   "id": "stamp_illust_houka_001",
+   "stampId": "39",
+   "file": "stamp_illust_houka_001.png",
+   "sha256": "fb39236d5e5101359290d6d4935f5fb67a4e183e67dfcbbc31fd15d548b7cbdb",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/fb39236d5e5101359290d6d4935f5fb67a4e183e67dfcbbc31fd15d548b7cbdb.png",
+   "size": [
+    380,
+    438
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 144942,
+   "nameZh": "朋花的表情1",
+   "nameJa": "朋花スタンプ1",
+   "characters": [
+    "和泉朋花"
+   ],
+   "characterIds": [
+    "20"
+   ],
+   "centroid": [
+    0.459,
+    0.521
+   ],
+   "coverage": 0.808
+  },
+  {
+   "id": "stamp_illust_houka_002",
+   "stampId": "40",
+   "file": "stamp_illust_houka_002.png",
+   "sha256": "07b15cc867472aa768e16d23133fece5e2458d2104a5063353ef18a438469efa",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/07b15cc867472aa768e16d23133fece5e2458d2104a5063353ef18a438469efa.png",
+   "size": [
+    403,
+    410
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 127155,
+   "nameZh": "朋花的表情2",
+   "nameJa": "朋花スタンプ2",
+   "characters": [
+    "和泉朋花"
+   ],
+   "characterIds": [
+    "20"
+   ],
+   "centroid": [
+    0.482,
+    0.539
+   ],
+   "coverage": 0.743
+  },
+  {
+   "id": "stamp_illust_raika_001",
+   "stampId": "41",
+   "file": "stamp_illust_raika_001.png",
+   "sha256": "2eca7de0d102b22b8286f653026d60772d5125453571100d9e95c048b5ba5aa3",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/2eca7de0d102b22b8286f653026d60772d5125453571100d9e95c048b5ba5aa3.png",
+   "size": [
+    404,
+    397
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 149840,
+   "nameZh": "蕾叶的表情1",
+   "nameJa": "蕾叶スタンプ1",
+   "characters": [
+    "须贺蕾叶"
+   ],
+   "characterIds": [
+    "21"
+   ],
+   "centroid": [
+    0.458,
+    0.502
+   ],
+   "coverage": 0.659
+  },
+  {
+   "id": "stamp_illust_raika_002",
+   "stampId": "42",
+   "file": "stamp_illust_raika_002.png",
+   "sha256": "f7b3cddea487ffb7e79fdf08972e8a92e14d3808c260ffe66f81f2ba8b207cbe",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/f7b3cddea487ffb7e79fdf08972e8a92e14d3808c260ffe66f81f2ba8b207cbe.png",
+   "size": [
+    364,
+    396
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 120400,
+   "nameZh": "蕾叶的表情2",
+   "nameJa": "蕾叶スタンプ2",
+   "characters": [
+    "须贺蕾叶"
+   ],
+   "characterIds": [
+    "21"
+   ],
+   "centroid": [
+    0.511,
+    0.505
+   ],
+   "coverage": 0.713
+  },
+  {
+   "id": "stamp_illust_miku_001",
+   "stampId": "43",
+   "file": "stamp_illust_miku_001.png",
+   "sha256": "01bcd292c748d0cd015ce9fa29027406aa7b3bb4b1e11d1bf351ac56b3433cf3",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/01bcd292c748d0cd015ce9fa29027406aa7b3bb4b1e11d1bf351ac56b3433cf3.png",
+   "size": [
+    337,
+    428
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 104201,
+   "nameZh": "心玖的表情1",
+   "nameJa": "心玖スタンプ1",
+   "characters": [
+    "马桥心玖"
+   ],
+   "characterIds": [
+    "22"
+   ],
+   "centroid": [
+    0.527,
+    0.48
+   ],
+   "coverage": 0.704
+  },
+  {
+   "id": "stamp_illust_miku_002",
+   "stampId": "44",
+   "file": "stamp_illust_miku_002.png",
+   "sha256": "e3ae7fc541f425e992a6916677de634e3a2848c57813e5efb9c0052a967427a1",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/e3ae7fc541f425e992a6916677de634e3a2848c57813e5efb9c0052a967427a1.png",
+   "size": [
+    400,
+    455
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 109932,
+   "nameZh": "心玖的表情2",
+   "nameJa": "心玖スタンプ2",
+   "characters": [
+    "马桥心玖"
+   ],
+   "characterIds": [
+    "22"
+   ],
+   "centroid": [
+    0.472,
+    0.477
+   ],
+   "coverage": 0.685
+  },
+  {
+   "id": "stamp_illust_yomogi_001",
+   "stampId": "45",
+   "file": "stamp_illust_yomogi_001.png",
+   "sha256": "5402975d9bbc6ec02fca2c2a1fb80e632e61251e85b9e12e849d65f6d76cdeb6",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/5402975d9bbc6ec02fca2c2a1fb80e632e61251e85b9e12e849d65f6d76cdeb6.png",
+   "size": [
+    335,
+    393
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 102064,
+   "nameZh": "蓬咲的表情1",
+   "nameJa": "蓬咲スタンプ1",
+   "characters": [
+    "矢仓蓬咲"
+   ],
+   "characterIds": [
+    "23"
+   ],
+   "centroid": [
+    0.465,
+    0.472
+   ],
+   "coverage": 0.668
+  },
+  {
+   "id": "stamp_illust_yomogi_002",
+   "stampId": "46",
+   "file": "stamp_illust_yomogi_002.png",
+   "sha256": "b718558f8e043baec6f7af4a8c809104ad2e5693f75001a5dbfa52964707a13e",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/b718558f8e043baec6f7af4a8c809104ad2e5693f75001a5dbfa52964707a13e.png",
+   "size": [
+    300,
+    418
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 100244,
+   "nameZh": "蓬咲的表情2",
+   "nameJa": "蓬咲スタンプ2",
+   "characters": [
+    "矢仓蓬咲"
+   ],
+   "characterIds": [
+    "23"
+   ],
+   "centroid": [
+    0.51,
+    0.462
+   ],
+   "coverage": 0.715
+  },
+  {
+   "id": "stamp_illust_chieri_001",
+   "stampId": "47",
+   "file": "stamp_illust_chieri_001.png",
+   "sha256": "030b89f9bb8265b9453ff477120b36b470ab5234ac51f6cb55f03468de827d06",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/030b89f9bb8265b9453ff477120b36b470ab5234ac51f6cb55f03468de827d06.png",
+   "size": [
+    423,
+    440
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 150932,
+   "nameZh": "千樱梨的表情1",
+   "nameJa": "ちえりスタンプ1",
+   "characters": [
+    "梅里千樱梨"
+   ],
+   "characterIds": [
+    "24"
+   ],
+   "centroid": [
+    0.519,
+    0.486
+   ],
+   "coverage": 0.601
+  },
+  {
+   "id": "stamp_illust_chieri_002",
+   "stampId": "48",
+   "file": "stamp_illust_chieri_002.png",
+   "sha256": "7b23dd92aa579f5da5e788d35cfe0e981fba1f67525b7fa5fc91ee214f68e0c9",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/7b23dd92aa579f5da5e788d35cfe0e981fba1f67525b7fa5fc91ee214f68e0c9.png",
+   "size": [
+    391,
+    421
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 128269,
+   "nameZh": "千樱梨的表情2",
+   "nameJa": "ちえりスタンプ2",
+   "characters": [
+    "梅里千樱梨"
+   ],
+   "characterIds": [
+    "24"
+   ],
+   "centroid": [
+    0.504,
+    0.486
+   ],
+   "coverage": 0.706
+  },
+  {
+   "id": "stamp_illust_shizuku_001",
+   "stampId": "49",
+   "file": "stamp_illust_shizuku_001.png",
+   "sha256": "4ae7c9a3c4691c8b9c593917f5cf509754b97238f630ad0d3e7677dbc04f957a",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/4ae7c9a3c4691c8b9c593917f5cf509754b97238f630ad0d3e7677dbc04f957a.png",
+   "size": [
+    423,
+    423
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 122808,
+   "nameZh": "宁月的表情1",
+   "nameJa": "寧月スタンプ1",
+   "characters": [
+    "四宫宁月"
+   ],
+   "characterIds": [
+    "25"
+   ],
+   "centroid": [
+    0.496,
+    0.451
+   ],
+   "coverage": 0.652
+  },
+  {
+   "id": "stamp_illust_shizuku_002",
+   "stampId": "50",
+   "file": "stamp_illust_shizuku_002.png",
+   "sha256": "a6c7c96333bbca009eb55f80fec61d300433344a5dfc87d77881ef3843475a27",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/a6c7c96333bbca009eb55f80fec61d300433344a5dfc87d77881ef3843475a27.png",
+   "size": [
+    476,
+    413
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 139677,
+   "nameZh": "宁月的表情2",
+   "nameJa": "寧月スタンプ2",
+   "characters": [
+    "四宫宁月"
+   ],
+   "characterIds": [
+    "25"
+   ],
+   "centroid": [
+    0.521,
+    0.494
+   ],
+   "coverage": 0.623
+  },
+  {
+   "id": "stamp_text_001",
+   "stampId": "51",
+   "file": "stamp_text_001.png",
+   "sha256": "75d2a25082c0b091e5f8347bd66ea710a9501495e2eed9d5a7b11a2d16890744",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/75d2a25082c0b091e5f8347bd66ea710a9501495e2eed9d5a7b11a2d16890744.png",
+   "size": [
+    501,
+    116
+   ],
+   "quality": "empty-after-text-removal",
+   "artifact": 305,
+   "nameZh": "请多关照！",
+   "nameJa": "よろしく!",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.5,
+    0.5
+   ],
+   "coverage": 0.0
+  },
+  {
+   "id": "stamp_text_002",
+   "stampId": "52",
+   "file": "stamp_text_002.png",
+   "sha256": "f417c0c8d2d7236948935c896ade32ad449456da2dc76138a36ba11650cca724",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/f417c0c8d2d7236948935c896ade32ad449456da2dc76138a36ba11650cca724.png",
+   "size": [
+    510,
+    118
+   ],
+   "quality": "empty-after-text-removal",
+   "artifact": 313,
+   "nameZh": "加油吧！",
+   "nameJa": "がんばろう!",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.5,
+    0.5
+   ],
+   "coverage": 0.0
+  },
+  {
+   "id": "stamp_text_003",
+   "stampId": "53",
+   "file": "stamp_text_003.png",
+   "sha256": "6b6ba481c36519a66b426b30b8e286647eae661eaaf830709b3a67b48d70e953",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/6b6ba481c36519a66b426b30b8e286647eae661eaaf830709b3a67b48d70e953.png",
+   "size": [
+    482,
+    217
+   ],
+   "quality": "empty-after-text-removal",
+   "artifact": 485,
+   "nameZh": "开心地玩吧！",
+   "nameJa": "楽しくやろう！",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.5,
+    0.5
+   ],
+   "coverage": 0.0
+  },
+  {
+   "id": "stamp_text_004",
+   "stampId": "54",
+   "file": "stamp_text_004.png",
+   "sha256": "33e027b070ec3f29074260f2e1b4b7c0a442cfafa2c0d7b294b153ebec1a498a",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/33e027b070ec3f29074260f2e1b4b7c0a442cfafa2c0d7b294b153ebec1a498a.png",
+   "size": [
+    463,
+    215
+   ],
+   "quality": "empty-after-text-removal",
+   "artifact": 466,
+   "nameZh": "轻松地上吧！",
+   "nameJa": "気楽にいこう!",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.5,
+    0.5
+   ],
+   "coverage": 0.0
+  },
+  {
+   "id": "stamp_text_005",
+   "stampId": "55",
+   "file": "stamp_text_005.png",
+   "sha256": "c49e12ffd77020ef449c8ed52d09b66502db30540c0d5b6efd956efbc24b3411",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/c49e12ffd77020ef449c8ed52d09b66502db30540c0d5b6efd956efbc24b3411.png",
+   "size": [
+    486,
+    193
+   ],
+   "quality": "empty-after-text-removal",
+   "artifact": 443,
+   "nameZh": "要认真了……！",
+   "nameJa": "本気でいくよ…!",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.5,
+    0.5
+   ],
+   "coverage": 0.0
+  },
+  {
+   "id": "stamp_text_006",
+   "stampId": "56",
+   "file": "stamp_text_006.png",
+   "sha256": "2853b0a96e8e71c04eecb9d37ecb7897679637b3b09fe45ec1bd2b905191b214",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/2853b0a96e8e71c04eecb9d37ecb7897679637b3b09fe45ec1bd2b905191b214.png",
+   "size": [
+    463,
+    231
+   ],
+   "quality": "empty-after-text-removal",
+   "artifact": 495,
+   "nameZh": "GOOD LUCK！",
+   "nameJa": "グッドラック!",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.5,
+    0.5
+   ],
+   "coverage": 0.0
+  },
+  {
+   "id": "stamp_text_007",
+   "stampId": "57",
+   "file": "stamp_text_007.png",
+   "sha256": "e57c8d6e45715d6085278e6998716e2b50817cd2918bbc1b85d83374ea1fdaae",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/e57c8d6e45715d6085278e6998716e2b50817cd2918bbc1b85d83374ea1fdaae.png",
+   "size": [
+    509,
+    105
+   ],
+   "quality": "empty-after-text-removal",
+   "artifact": 285,
+   "nameZh": "再见识一下你的本事……",
+   "nameJa": "お手なみ拝見…",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.5,
+    0.5
+   ],
+   "coverage": 0.0
+  },
+  {
+   "id": "stamp_text_008",
+   "stampId": "58",
+   "file": "stamp_text_008.png",
+   "sha256": "6acb494292a5a19c4fca7a2a3bc82111f6497e78ac47431c2f971c2f0b9a20b2",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/6acb494292a5a19c4fca7a2a3bc82111f6497e78ac47431c2f971c2f0b9a20b2.png",
+   "size": [
+    477,
+    75
+   ],
+   "quality": "empty-after-text-removal",
+   "artifact": 218,
+   "nameZh": "谢谢——！",
+   "nameJa": "ありがとー!",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.5,
+    0.5
+   ],
+   "coverage": 0.0
+  },
+  {
+   "id": "stamp_text_009",
+   "stampId": "59",
+   "file": "stamp_text_009.png",
+   "sha256": "f629fc5fdcb97b497a898d6fb748a2adaf130d16530e5d5f9a8d538cacbcb90e",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/f629fc5fdcb97b497a898d6fb748a2adaf130d16530e5d5f9a8d538cacbcb90e.png",
+   "size": [
+    385,
+    113
+   ],
+   "quality": "empty-after-text-removal",
+   "artifact": 248,
+   "nameZh": "好开心！",
+   "nameJa": "楽しかった!",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.5,
+    0.5
+   ],
+   "coverage": 0.0
+  },
+  {
+   "id": "stamp_text_010",
+   "stampId": "60",
+   "file": "stamp_text_010.png",
+   "sha256": "6db1a13e8e31b70b62d84f7921722d49c254f9b1889b6c7f0a443deb4dba6f35",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/6db1a13e8e31b70b62d84f7921722d49c254f9b1889b6c7f0a443deb4dba6f35.png",
+   "size": [
+    415,
+    122
+   ],
+   "quality": "empty-after-text-removal",
+   "artifact": 276,
+   "nameZh": "好厉害！",
+   "nameJa": "すごい！",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.5,
+    0.5
+   ],
+   "coverage": 0.0
+  },
+  {
+   "id": "stamp_text_011",
+   "stampId": "61",
+   "file": "stamp_text_011.png",
+   "sha256": "89e9197a1dfee7c24b7d1bb533b20d2fdb0f5a18f08d465abb6fca687e949131",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/89e9197a1dfee7c24b7d1bb533b20d2fdb0f5a18f08d465abb6fca687e949131.png",
+   "size": [
+    480,
+    83
+   ],
+   "quality": "empty-after-text-removal",
+   "artifact": 233,
+   "nameZh": "有两下子……！",
+   "nameJa": "やるな…!",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.5,
+    0.5
+   ],
+   "coverage": 0.0
+  },
+  {
+   "id": "stamp_text_012",
+   "stampId": "62",
+   "file": "stamp_text_012.png",
+   "sha256": "5492bd16250b4951433c23663784461dfe87125eb425891ed2246b5db51a6891",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/5492bd16250b4951433c23663784461dfe87125eb425891ed2246b5db51a6891.png",
+   "size": [
+    462,
+    144
+   ],
+   "quality": "empty-after-text-removal",
+   "artifact": 337,
+   "nameZh": "可惜！",
+   "nameJa": "惜しい！",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.5,
+    0.5
+   ],
+   "coverage": 0.0
+  },
+  {
+   "id": "stamp_text_013",
+   "stampId": "63",
+   "file": "stamp_text_013.png",
+   "sha256": "b27490813304539e03f48fcd0a9c0b0161b34b33d55384a4410ea2a849fc9b56",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/b27490813304539e03f48fcd0a9c0b0161b34b33d55384a4410ea2a849fc9b56.png",
+   "size": [
+    473,
+    82
+   ],
+   "quality": "empty-after-text-removal",
+   "artifact": 230,
+   "nameZh": "下次一定……！",
+   "nameJa": "次こそ…!",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.5,
+    0.5
+   ],
+   "coverage": 0.0
+  },
+  {
+   "id": "stamp_text_014",
+   "stampId": "64",
+   "file": "stamp_text_014.png",
+   "sha256": "1f515407a657bfc78b3c448b8c7430ead2ab9bdcde128f7f5f0c7fbc01924503",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/1f515407a657bfc78b3c448b8c7430ead2ab9bdcde128f7f5f0c7fbc01924503.png",
+   "size": [
+    500,
+    68
+   ],
+   "quality": "empty-after-text-removal",
+   "artifact": 212,
+   "nameZh": "再来一次！",
+   "nameJa": "もう1回!",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.5,
+    0.5
+   ],
+   "coverage": 0.0
+  },
+  {
+   "id": "stamp_text_015",
+   "stampId": "65",
+   "file": "stamp_text_015.png",
+   "sha256": "088fbd0b683df9e9eaa576f38e225d6f46097d3dfa02ae975e0c3124aa2cf71d",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/088fbd0b683df9e9eaa576f38e225d6f46097d3dfa02ae975e0c3124aa2cf71d.png",
+   "size": [
+    497,
+    115
+   ],
+   "quality": "empty-after-text-removal",
+   "artifact": 302,
+   "nameZh": "拜拜！",
+   "nameJa": "バイバイ!",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.5,
+    0.5
+   ],
+   "coverage": 0.0
+  },
+  {
+   "id": "stamp_text_016",
+   "stampId": "66",
+   "file": "stamp_text_016.png",
+   "sha256": "5b696d51f4dc5b19b1a2e594b3cd4b479da590b0937e7417692cf09f1935040b",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/5b696d51f4dc5b19b1a2e594b3cd4b479da590b0937e7417692cf09f1935040b.png",
+   "size": [
+    493,
+    274
+   ],
+   "quality": "empty-after-text-removal",
+   "artifact": 604,
+   "nameZh": "最后一局！",
+   "nameJa": "次でラスト!",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.5,
+    0.5
+   ],
+   "coverage": 0.0
+  },
+  {
+   "id": "stamp_text_017",
+   "stampId": "67",
+   "file": "stamp_text_017.png",
+   "sha256": "e764130dd6695fc18b7e27530fa987eecbdb277dc4b7c0065f011dd922d7da4b",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/e764130dd6695fc18b7e27530fa987eecbdb277dc4b7c0065f011dd922d7da4b.png",
+   "size": [
+    486,
+    96
+   ],
+   "quality": "empty-after-text-removal",
+   "artifact": 261,
+   "nameZh": "我要下线了……！",
+   "nameJa": "落ちます…!",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.5,
+    0.5
+   ],
+   "coverage": 0.0
+  },
+  {
+   "id": "stamp_text_018",
+   "stampId": "68",
+   "file": "stamp_text_018.png",
+   "sha256": "6bfcd13647a59cc98662fd33740fe30f68a043a46aa810935fec2afd22eac958",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/6bfcd13647a59cc98662fd33740fe30f68a043a46aa810935fec2afd22eac958.png",
+   "size": [
+    508,
+    190
+   ],
+   "quality": "empty-after-text-removal",
+   "artifact": 454,
+   "nameZh": "再会啦！",
+   "nameJa": "また会おう!",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.5,
+    0.5
+   ],
+   "coverage": 0.0
+  },
+  {
+   "id": "stamp_illust_sub_ririko_001",
+   "stampId": "69",
+   "file": "stamp_illust_sub_ririko_001.png",
+   "sha256": "cf340a347a0c066bbce53f49ccfe2c58b4ec010eb51d030072b43ca26e484850",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/cf340a347a0c066bbce53f49ccfe2c58b4ec010eb51d030072b43ca26e484850.png",
+   "size": [
+    337,
+    409
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 73296,
+   "nameZh": "差不多该出场了～",
+   "nameJa": "そろそろ出番だよ～",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.465,
+    0.485
+   ],
+   "coverage": 0.699
+  },
+  {
+   "id": "stamp_illust_sub_mana_001",
+   "stampId": "70",
+   "file": "stamp_illust_sub_mana_001.png",
+   "sha256": "5188811b6ba56f08b6b19f91ebf77c1e0a77e85e5e73609ef60c311638db2031",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/5188811b6ba56f08b6b19f91ebf77c1e0a77e85e5e73609ef60c311638db2031.png",
+   "size": [
+    389,
+    406
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 84799,
+   "nameZh": "甜甜圈分你一半。",
+   "nameJa": "ドーナツ半分こ。",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.532,
+    0.464
+   ],
+   "coverage": 0.664
+  },
+  {
+   "id": "stamp_illust_sub_manager_001",
+   "stampId": "71",
+   "file": "stamp_illust_sub_manager_001.png",
+   "sha256": "8494aa9f1a51d0762517cd6328df8abf6afb80e88469ad80ba3466bd5afa3fd6",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/8494aa9f1a51d0762517cd6328df8abf6afb80e88469ad80ba3466bd5afa3fd6.png",
+   "size": [
+    339,
+    410
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 89453,
+   "nameZh": "帮大忙了～！",
+   "nameJa": "助かる～！",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.517,
+    0.508
+   ],
+   "coverage": 0.639
+  },
+  {
+   "id": "stamp_illust_sub_nikopanchan_001",
+   "stampId": "72",
+   "file": "stamp_illust_sub_nikopanchan_001.png",
+   "sha256": "e73d023a36aca82bd74dc512d30bc7036c8dca697f18642a080a079df076e771",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/e73d023a36aca82bd74dc512d30bc7036c8dca697f18642a080a079df076e771.png",
+   "size": [
+    394,
+    389
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 66105,
+   "nameZh": "只能跳舞了啊",
+   "nameJa": "踊るっきゃねえな",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.534,
+    0.48
+   ],
+   "coverage": 0.558
+  },
+  {
+   "id": "stamp_illust_sub_dairi_001",
+   "stampId": "73",
+   "file": "stamp_illust_sub_dairi_001.png",
+   "sha256": "27d1fd2dc3373441e3ed1ec90df413a145ca61e6e7fd3697a1c0fa7ec815c5ee",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/27d1fd2dc3373441e3ed1ec90df413a145ca61e6e7fd3697a1c0fa7ec815c5ee.png",
+   "size": [
+    324,
+    398
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 62166,
+   "nameZh": "劳动时间，开工开工～",
+   "nameJa": "労働の時間、はじまりはじまり〜",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.512,
+    0.443
+   ],
+   "coverage": 0.634
+  },
+  {
+   "id": "stamp_illust_yuno_003",
+   "stampId": "74",
+   "file": "stamp_illust_yuno_003.png",
+   "sha256": "9f7d78f3739b04a7bfc41583b4eb9cb7fad081ea8e91301574023fefe10128f3",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/9f7d78f3739b04a7bfc41583b4eb9cb7fad081ea8e91301574023fefe10128f3.png",
+   "size": [
+    400,
+    424
+   ],
+   "quality": "validated-native-fusion",
+   "artifact": 108131,
+   "nameZh": "爱的奔流 AtoZ 奖励表情",
+   "nameJa": "アイの奔流 AtoZ 報酬スタンプ",
+   "characters": [
+    "千石由乃"
+   ],
+   "characterIds": [
+    "15"
+   ],
+   "centroid": [
+    0.533,
+    0.524
+   ],
+   "coverage": 0.661
+  },
+  {
+   "id": "stamp_illust_nagi_003",
+   "stampId": "75",
+   "file": "stamp_illust_nagi_003.png",
+   "sha256": "c6912bb8994b60d0ada467e717be5d58a4161974af4b970837eda0d64f4bcf3c",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/c6912bb8994b60d0ada467e717be5d58a4161974af4b970837eda0d64f4bcf3c.png",
+   "size": [
+    338,
+    445
+   ],
+   "quality": "validated-native-fusion",
+   "artifact": 93975,
+   "nameZh": "拜托了，倾心一掷 奖励表情",
+   "nameJa": "お願い、サイドスロー 報酬スタンプ",
+   "characters": [
+    "琴平凪"
+   ],
+   "characterIds": [
+    "18"
+   ],
+   "centroid": [
+    0.503,
+    0.5
+   ],
+   "coverage": 0.764
+  },
+  {
+   "id": "stamp_illust_shizuku_003",
+   "stampId": "76",
+   "file": "stamp_illust_shizuku_003.png",
+   "sha256": "58b790d8ed67981a1ca0ff05d4c659b87995ccc1591c26df0c7234cb199212b1",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/58b790d8ed67981a1ca0ff05d4c659b87995ccc1591c26df0c7234cb199212b1.png",
+   "size": [
+    360,
+    364
+   ],
+   "quality": "validated-native-fusion",
+   "artifact": 128242,
+   "nameZh": "Shake Your 魂, Baby!! 奖励表情",
+   "nameJa": "Shake Your 魂, Baby!! 報酬スタンプ",
+   "characters": [
+    "四宫宁月"
+   ],
+   "characterIds": [
+    "25"
+   ],
+   "centroid": [
+    0.505,
+    0.504
+   ],
+   "coverage": 0.749
+  },
+  {
+   "id": "stamp_text_bili_00001",
+   "stampId": "1000000001",
+   "file": "stamp_text_bili_00001.png",
+   "sha256": "b2fa51564ec6dcda4db793429fa8512d850e5ffd08f84abde44329437f17ef55",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/b2fa51564ec6dcda4db793429fa8512d850e5ffd08f84abde44329437f17ef55.png",
+   "size": [
+    274,
+    35
+   ],
+   "quality": "empty-after-text-removal",
+   "artifact": 117,
+   "nameZh": "ABRACADABRA",
+   "nameJa": "",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.5,
+    0.5
+   ],
+   "coverage": 0.0
+  },
+  {
+   "id": "stamp_text_bili_00002",
+   "stampId": "1000000002",
+   "file": "stamp_text_bili_00002.png",
+   "sha256": "07b00d3f8fc68753de075e406877dc241e48f5c5b5f9f3bd34b3c79943648fd4",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/07b00d3f8fc68753de075e406877dc241e48f5c5b5f9f3bd34b3c79943648fd4.png",
+   "size": [
+    188,
+    57
+   ],
+   "quality": "empty-after-text-removal",
+   "artifact": 121,
+   "nameZh": "GAGA！",
+   "nameJa": "",
+   "characters": [],
+   "characterIds": [],
+   "centroid": [
+    0.5,
+    0.5
+   ],
+   "coverage": 0.0
+  },
+  {
+   "id": "stamp_illust_bili_00001",
+   "stampId": "1000000003",
+   "file": "stamp_illust_bili_00001.png",
+   "sha256": "db98eeb010a74c14eb7e1cef70b3efb05827f52c2329c8a70c301be3e332057a",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/db98eeb010a74c14eb7e1cef70b3efb05827f52c2329c8a70c301be3e332057a.png",
+   "size": [
+    375,
+    415
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 120813,
+   "nameZh": "抓紧我",
+   "nameJa": "",
+   "characters": [
+    "Doloris / 三角初华"
+   ],
+   "characterIds": [
+    "6"
+   ],
+   "centroid": [
+    0.497,
+    0.483
+   ],
+   "coverage": 0.637
+  },
+  {
+   "id": "stamp_illust_bili_00002",
+   "stampId": "1000000004",
+   "file": "stamp_illust_bili_00002.png",
+   "sha256": "ecb3a1bb560f4c4b0a4fa481a782ff0589a2b27b70312bd61337951172f74dc5",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/ecb3a1bb560f4c4b0a4fa481a782ff0589a2b27b70312bd61337951172f74dc5.png",
+   "size": [
+    343,
+    394
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 121911,
+   "nameZh": "熟睡中",
+   "nameJa": "",
+   "characters": [
+    "Mortis / 若叶睦"
+   ],
+   "characterIds": [
+    "7"
+   ],
+   "centroid": [
+    0.503,
+    0.496
+   ],
+   "coverage": 0.728
+  },
+  {
+   "id": "stamp_illust_bili_00003",
+   "stampId": "1000000005",
+   "file": "stamp_illust_bili_00003.png",
+   "sha256": "38b0b9db345596fde25db6ac61f99a2179a4dacbfe35c4d2d328d3065a0f1cf5",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/38b0b9db345596fde25db6ac61f99a2179a4dacbfe35c4d2d328d3065a0f1cf5.png",
+   "size": [
+    364,
+    417
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 103219,
+   "nameZh": "我开动了",
+   "nameJa": "",
+   "characters": [
+    "Timoris / 八幡海铃"
+   ],
+   "characterIds": [
+    "8"
+   ],
+   "centroid": [
+    0.497,
+    0.48
+   ],
+   "coverage": 0.742
+  },
+  {
+   "id": "stamp_illust_bili_00004",
+   "stampId": "1000000006",
+   "file": "stamp_illust_bili_00004.png",
+   "sha256": "63cc1f9116f200261ddfefd41e5f7e34e9acf2c9794be5c63c5fdde8fa440548",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/63cc1f9116f200261ddfefd41e5f7e34e9acf2c9794be5c63c5fdde8fa440548.png",
+   "size": [
+    320,
+    402
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 110486,
+   "nameZh": "这样如何？",
+   "nameJa": "",
+   "characters": [
+    "Amoris / 祐天寺若麦"
+   ],
+   "characterIds": [
+    "9"
+   ],
+   "centroid": [
+    0.476,
+    0.449
+   ],
+   "coverage": 0.71
+  },
+  {
+   "id": "stamp_illust_bili_00005",
+   "stampId": "1000000007",
+   "file": "stamp_illust_bili_00005.png",
+   "sha256": "d7eb17b364ce1fa68f8e74b07f23c1f3db7b57dc8c8675b12a8a9d5fcee6a67a",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/d7eb17b364ce1fa68f8e74b07f23c1f3db7b57dc8c8675b12a8a9d5fcee6a67a.png",
+   "size": [
+    391,
+    422
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 90446,
+   "nameZh": "盯",
+   "nameJa": "",
+   "characters": [
+    "Oblivionis / 丰川祥子"
+   ],
+   "characterIds": [
+    "10"
+   ],
+   "centroid": [
+    0.649,
+    0.477
+   ],
+   "coverage": 0.664
+  },
+  {
+   "id": "stamp_illust_bili_00006",
+   "stampId": "1000000008",
+   "file": "stamp_illust_bili_00006.png",
+   "sha256": "07e91db1a2ec6830143efc856ca666806b770d58252ef42ff437c985b4566f20",
+   "srcPath": "/assets/intl/Assets/Haneoka/StampMaker/shared/sha256/07e91db1a2ec6830143efc856ca666806b770d58252ef42ff437c985b4566f20.png",
+   "size": [
+    512,
+    460
+   ],
+   "quality": "self-reviewed-textless",
+   "artifact": 180688,
+   "nameZh": "转圈圈",
+   "nameJa": "",
+   "characters": [
+    "Doloris / 三角初华",
+    "Mortis / 若叶睦",
+    "Timoris / 八幡海铃",
+    "Amoris / 祐天寺若麦",
+    "Oblivionis / 丰川祥子"
+   ],
+   "characterIds": [
+    "6",
+    "7",
+    "8",
+    "9",
+    "10"
+   ],
+   "centroid": [
+    0.494,
+    0.462
+   ],
+   "coverage": 0.503
+  }
+ ],
+ "characters": {
+  "1": "高松灯",
+  "2": "千早爱音",
+  "3": "要乐奈",
+  "4": "长崎爽世",
+  "5": "椎名立希",
+  "6": "Doloris / 三角初华",
+  "7": "Mortis / 若叶睦",
+  "8": "Timoris / 八幡海铃",
+  "9": "Amoris / 祐天寺若麦",
+  "10": "Oblivionis / 丰川祥子",
+  "11": "仲町阿拉蕾",
+  "12": "宫永野乃花",
+  "13": "峰月律",
+  "14": "藤都子",
+  "15": "千石由乃",
+  "16": "汐见萤",
+  "17": "伊泽枣",
+  "18": "琴平凪",
+  "19": "滨崎茉幌",
+  "20": "和泉朋花",
+  "21": "须贺蕾叶",
+  "22": "马桥心玖",
+  "23": "矢仓蓬咲",
+  "24": "梅里千樱梨",
+  "25": "四宫宁月",
+  "1001": "泽海奏多"
+ }
+}
