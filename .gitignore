@@ -180,3 +180,15 @@ cython_debug/
 # These files should never be committed to Git
 local/
 /data/
+
+# 个人收集的表情包素材：体积大，且不属于插件本体
+bilibili_memes/
+
+# 工作目录（工具缓存、原型脚本、调试产物）
+.workbuddy/
+
+# 字体中间产物：Pillow/FreeType 不认 woff2，运行时只用 otf
+stamp_base/fonts/*.woff2
+
+# 上游抹字失败留下的空白底图（alpha 全 0，加载时会被跳过）
+stamp_base/base/stamp_text_*.png

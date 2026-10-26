@@ -13,7 +13,11 @@
         "description": "预览加载并发数",
         "type": "int",
         "default": 2,
-        "slider": { "min": 1, "max": 8, "step": 1 },
+        "slider": {
+          "min": 1,
+          "max": 8,
+          "step": 1
+        },
         "hint": "每个插件页面同时加载的图片数量。低带宽建议 1–2，保存后刷新页面生效。"
       }
     }
@@ -27,7 +31,12 @@
         "description": "图床服务",
         "type": "string",
         "default": "cloudflare_r2",
-        "options": ["stardots", "cloudflare_r2", "webdav", "lsky"],
+        "options": [
+          "stardots",
+          "cloudflare_r2",
+          "webdav",
+          "lsky"
+        ],
         "hint": "请选择要使用的图床服务"
       },
       "providers": {
@@ -277,7 +286,11 @@
         "type": "int",
         "default": 200,
         "hint": "每个表情包独立计算，默认 200 张，可设置为 1–2000 张。达到容量后暂停向该包提交新候选图片；不会自动删除已收集图片",
-        "slider": { "min": 1, "max": 2000, "step": 1 }
+        "slider": {
+          "min": 1,
+          "max": 2000,
+          "step": 1
+        }
       },
       "scope": {
         "description": "允许收集的群聊或个人 ID",
@@ -310,7 +323,11 @@
         "type": "int",
         "default": 1,
         "hint": "优先处理平台明确标记为表情的图片，其余按消息顺序处理；默认 1 张，最多 10 张；同一消息内不重复触发来源冷却",
-        "slider": { "min": 1, "max": 10, "step": 1 }
+        "slider": {
+          "min": 1,
+          "max": 10,
+          "step": 1
+        }
       },
       "cooldown_seconds": {
         "description": "同一来源最短识别间隔（秒）",
@@ -356,7 +373,10 @@
             "description": "表情附加触发范围",
             "type": "string",
             "default": "only_chat_llm",
-            "options": ["only_chat_llm", "chat_and_plugin_llm"],
+            "options": [
+              "only_chat_llm",
+              "chat_and_plugin_llm"
+            ],
             "hint": "only_chat_llm=仅对普通聊天 LLM 回复附加（默认）；chat_and_plugin_llm=同时对插件通过 event.request_llm 触发的 LLM 回复附加。第三方 Agent、指令和固定文本不触发"
           }
         }
@@ -574,6 +594,49 @@
             "hint": "移除分段后内容中的指定内容"
           }
         }
+      }
+    }
+  },
+  "compose": {
+    "description": "底图配字",
+    "type": "object",
+    "hint": "让模型在透明底图上写一句话再发出去。与原表情包二选一：命中的轮次只出配字图，其余轮次照常检索图库，同一轮不会发两张。",
+    "items": {
+      "enabled": {
+        "description": "启用底图配字",
+        "type": "bool",
+        "default": false,
+        "hint": "需要插件目录下的 stamp_base（底图 + 字体 + 清单）完整存在；缺任何一项都会自动跳过，不影响原表情包。"
+      },
+      "bot_ids": {
+        "description": "对哪些 bot 生效",
+        "type": "string",
+        "default": "",
+        "hint": "填 QQ 号而不是 bot 名字，多个用逗号分隔，例如 3177624799。留空表示所有 bot 都生效。"
+      },
+      "session_ratio": {
+        "description": "配字比例（%）",
+        "type": "int",
+        "default": 30,
+        "hint": "按会话计数：每 10 轮里恰好有 比例÷10 轮配字，具体落在哪几轮随机，不会连续命中或长时间不出。30 表示每 10 轮约 3 轮，0 等于停用，100 表示每轮都配字。"
+      },
+      "max_chars": {
+        "description": "一句话最多几个字",
+        "type": "int",
+        "default": 8,
+        "hint": "超长会拒绝出图并要求模型缩短，不会硬塞。5–7 字最稳，8 字已是清晰度下限。"
+      },
+      "font": {
+        "description": "指定字体",
+        "type": "string",
+        "default": "",
+        "hint": "留空时每轮在「整句话都能完整渲染」的字体里自动轮换，中文以方堂体为主。想固定风格可填 SSFangTangTi 或 YurukaStd。"
+      },
+      "canvas": {
+        "description": "出图尺寸（像素）",
+        "type": "int",
+        "default": 512,
+        "hint": "正方形 PNG 的边长。512 在 QQ 上已经清晰，单图约 120 KB；调大更锐利，文件也更大。"
       }
     }
   }

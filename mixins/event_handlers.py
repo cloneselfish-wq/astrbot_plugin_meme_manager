@@ -1078,9 +1078,11 @@ class EventHandlerMixin:
     ) -> None:
         if not self._scope_allows_llm_origin(event):
             self._remove_semantic_tool(req)
+            self._remove_tool_only(req, "compose_sticker")
             req.system_prompt = self._strip_meme_prompt(req.system_prompt)
             event.set_extra("meme_manager_semantic_active", False)
             event.set_extra("meme_manager_semantic_mode", "")
+            event.set_extra("meme_manager_compose_active", False)
             return
         event.set_extra("meme_manager_resolved_persona_id", None)
         try:
@@ -1323,6 +1325,9 @@ class EventHandlerMixin:
         # 在任何异步工作前占用本次响应，防止重复钩子覆盖语义选择结果或
         # 旧版分类匹配结果。
         event.set_extra("meme_manager_semantic_response_processed", True)
+        if bool(event.get_extra("meme_manager_compose_active")):
+            # 合成轮与检索轮互斥：本轮只可能有一张自造图，不进入任何图库选图逻辑
+            return await self._resp_compose_impl(event, response, text)
         if semantic_mode == "llm":
             return await self._resp_semantic_llm_impl(event, response, text)
         if semantic_mode == "tool":
@@ -1467,6 +1472,64 @@ class EventHandlerMixin:
             except Exception as exc:
                 logger.error("webchat 语义文本替换失败: %s", exc)
 
+    async def _resp_compose_impl(
+        self, event: AstrMessageEvent, response: LLMResponse, text: str
+    ):
+        """清理合成图标记，只接受本轮真正渲染出来的 id。"""
+        candidates = event.get_extra("meme_manager_compose_candidates") or {}
+        if not isinstance(candidates, dict):
+            candidates = {}
+
+        parser = self._make_meme_parser((), semantic=True)
+        clean_text = parser.feed(text or "") + parser.finish()
+        selected_ids: list[str] = []
+        for value in parser.selections:
+            if value in candidates and value not in selected_ids:
+                selected_ids.append(value)
+            else:
+                logger.warning("[meme_manager] 忽略不在本轮的合成图 id: %s", value)
+
+        event.set_extra("meme_manager_compose_selected", selected_ids)
+        event.set_extra("found_emotions", None)
+        response.completion_text = clean_text.strip()
+        if selected_ids and not response.completion_text:
+            if response.result_chain is None:
+                response.result_chain = MessageChain([Plain("")])
+            event.set_extra("meme_manager_image_only_reply", True)
+
+        result = event.get_result()
+        if (
+            event.get_platform_name() == "webchat"
+            and not event.get_extra("meme_manager_stream_filtered")
+            and result is not None
+            and result.result_content_type == ResultContentType.STREAMING_RESULT
+        ):
+            try:
+                await event.send(MessageChain([Plain(response.completion_text)]))
+            except Exception as exc:
+                logger.error("[meme_manager] webchat 合成文本替换失败: %s", exc)
+
+    def _build_compose_images(self, event: AstrMessageEvent) -> list:
+        """把本轮选中的合成图转成可直接发送的 Image 组件。"""
+        selected_ids = event.get_extra("meme_manager_compose_selected") or []
+        candidates = event.get_extra("meme_manager_compose_candidates") or {}
+        if not selected_ids or not isinstance(candidates, dict):
+            return []
+        images = []
+        for selected_id in selected_ids:
+            record = candidates.get(str(selected_id))
+            if not isinstance(record, dict):
+                continue
+            path = str(record.get("path") or "")
+            if not path or not os.path.isfile(path):
+                continue
+            try:
+                # 合成产物本身就是定稿 PNG，不转 GIF：转码会掉色并糊掉描边
+                images.append(Image.fromFileSystem(path))
+            except Exception as exc:
+                logger.error("[meme_manager] 加载合成表情失败: %s", exc)
+        return images
+
     async def _on_decorating_result_impl(self, event: AstrMessageEvent):
         """在消息发送前清理文本中的表情标签，并添加表情图片"""
         logger.debug("[meme_manager] on_decorating_result 开始处理")
@@ -1510,6 +1573,29 @@ class EventHandlerMixin:
             # 触发范围门控：仅在配置允许的消息类型上附加表情图片；
             # 文本标记清理（第一步）不受此门控影响，始终执行。
             scope_allows_attach = self._should_attach_for_result(event, result)
+            compose_images = (
+                self._build_compose_images(event)
+                if scope_allows_attach
+                and bool(event.get_extra("meme_manager_compose_active"))
+                else []
+            )
+            if compose_images:
+                use_mixed_message = not cleaned_components
+                if cleaned_components and self.enable_mixed_message:
+                    use_mixed_message = (
+                        random.randint(1, 100) <= self.mixed_message_probability
+                    )
+                if use_mixed_message and self.send_image_as_base64:
+                    compose_images = [
+                        await self._ensure_image_send_format(image)
+                        for image in compose_images
+                    ]
+                if use_mixed_message:
+                    cleaned_components = self._merge_components_with_images(
+                        cleaned_components, compose_images
+                    )
+                else:
+                    event.set_extra("meme_manager_pending_images", compose_images)
             semantic_selected_ids = (
                 event.get_extra("meme_manager_semantic_selected_ids") or []
             )
@@ -1627,6 +1713,7 @@ class EventHandlerMixin:
             # 清空当前事件已处理的表情列表
             event.set_extra("found_emotions", None)
             event.set_extra("meme_manager_semantic_selected_ids", None)
+            event.set_extra("meme_manager_compose_selected", None)
 
             # 第三步：更新消息链
             if isinstance(original_chain, (str, MessageChain, list)):
@@ -1716,8 +1803,22 @@ class EventHandlerMixin:
         # 流式结果仍须通过请求来源门控，与非流式主路径保持一致。
         if not self._should_attach_for_result(event, event.get_result()):
             event.set_extra("meme_manager_semantic_selected_ids", None)
+            event.set_extra("meme_manager_compose_selected", None)
             event.set_extra("found_emotions", None)
             return
+        if bool(event.get_extra("meme_manager_compose_active")):
+            compose_images = self._build_compose_images(event)
+            try:
+                for image in compose_images:
+                    await self._send_meme_image(event, image)
+            except Exception as exc:
+                logger.error(
+                    "[meme_manager] 流式合成表情发送失败: %s", exc, exc_info=True
+                )
+            finally:
+                event.set_extra("meme_manager_compose_selected", None)
+            if compose_images:
+                return
         semantic_selected_ids = (
             event.get_extra("meme_manager_semantic_selected_ids") or []
         )
