@@ -46,20 +46,34 @@ class BaseLibrary:
 
     目录布局约定::
 
-        stamp_base/
+        stamp_base/            # 只读：随插件分发的内置素材
         ├── manifest.json
         └── base/*.png
+
+        <plugin_data>/compose/bases/   # 可写：用户自己上传的底图
+        └── custom_*.png
+
+    自传底图刻意放在数据目录而不是插件目录：插件升级/重装时会整体覆盖
+    插件目录，放里面等于每次更新都清空用户上传的东西。清单里用
+    ``scope`` 字段区分两类素材。
     """
 
-    def __init__(self, root: Path | str):
+    def __init__(self, root: Path | str, custom_dir: Path | str | None = None):
         self.root = Path(root)
         self.base_dir = self.root / "base"
+        self.custom_dir = Path(custom_dir) if custom_dir else None
         self._stamps: list[BaseStamp] | None = None
         self._mtime: float = 0.0
 
     @property
     def ready(self) -> bool:
         return self.base_dir.is_dir() and (self.root / MANIFEST_FILE).is_file()
+
+    def _resolve_file(self, item: dict, file_name: str) -> Path:
+        """按条目的 ``scope`` 决定去哪个目录找文件。"""
+        if str(item.get("scope") or "builtin") == "custom" and self.custom_dir:
+            return self.custom_dir / file_name
+        return self.base_dir / file_name
 
     def _load(self) -> list[BaseStamp]:
         manifest_path = self.root / MANIFEST_FILE
@@ -79,10 +93,13 @@ class BaseLibrary:
         for item in raw.get("items") or []:
             if not isinstance(item, dict):
                 continue
+            # 用户在 WebUI 里停用的底图不参与挑选，但条目保留以便随时恢复
+            if item.get("disabled"):
+                continue
             file_name = str(item.get("file") or "")
             if not file_name:
                 continue
-            path = self.base_dir / file_name
+            path = self._resolve_file(item, file_name)
             if not path.is_file():
                 continue
             size = item.get("size") or [0, 0]

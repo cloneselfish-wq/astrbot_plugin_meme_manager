@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>底图库 · 底图配字</title>
+    <link rel="stylesheet" href="../shared/fa.min.css" />
+    <link rel="stylesheet" href="../shared/ui.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body class="app-page">
+    <header class="page-header">
+      <div class="page-header-main">
+        <div class="page-title-block">
+          <p class="eyebrow">Base Stamp Library</p>
+          <h1><i class="fas fa-palette icon"></i>底图库</h1>
+          <p class="page-subtitle">
+            上传透明底图，配文由模型按当时的对话现场写。这里只管「画什么」，
+            写字规则在设置中心的「底图配字」里。
+          </p>
+        </div>
+      </div>
+      <nav class="nav-actions" aria-label="页面导航"></nav>
+    </header>
+
+    <main id="main-content">
+      <section class="stat-row" id="stat-row" aria-label="底图统计">
+        <button type="button" class="stat-card" data-filter="all">
+          <span class="stat-label">底图总数</span>
+          <strong class="stat-value" id="stat-total">—</strong>
+          <span class="stat-hint">清单里的全部条目</span>
+        </button>
+        <button type="button" class="stat-card" data-filter="usable">
+          <span class="stat-label">可出图</span>
+          <strong class="stat-value accent" id="stat-usable">—</strong>
+          <span class="stat-hint">未停用且主体足够</span>
+        </button>
+        <button type="button" class="stat-card" data-filter="custom">
+          <span class="stat-label">自己上传</span>
+          <strong class="stat-value" id="stat-custom">—</strong>
+          <span class="stat-hint">可以随时删除</span>
+        </button>
+        <button type="button" class="stat-card" data-filter="disabled">
+          <span class="stat-label">已停用</span>
+          <strong class="stat-value" id="stat-disabled">—</strong>
+          <span class="stat-hint">不参与挑选，可恢复</span>
+        </button>
+      </section>
+
+      <section class="panel upload-panel" aria-labelledby="upload-title">
+        <div class="panel-head">
+          <h2 id="upload-title">添加底图</h2>
+          <p class="panel-desc">
+            只接受<strong>带透明背景的 PNG</strong>。文字的落点是固定的上/下/左/右
+            四块区域，底图主体越居中、边缘越干净，配字越不容易压到脸上。
+          </p>
+        </div>
+        <div
+          class="dropzone"
+          id="dropzone"
+          role="button"
+          tabindex="0"
+          aria-label="上传底图：拖拽文件到此处，或按回车选择文件"
+        >
+          <i class="fas fa-cloud-arrow-up dropzone-icon" aria-hidden="true"></i>
+          <p class="dropzone-title">拖拽 PNG 到这里，或点击选择文件</p>
+          <p class="dropzone-hint">
+            短边至少 48px，主体占画面 2% 以上，单张不超过 8MB；超过 1200px 会自动等比缩小
+          </p>
+          <input
+            type="file"
+            id="file-input"
+            accept="image/png"
+            multiple
+            hidden
+          />
+        </div>
+        <ul class="upload-list" id="upload-list" aria-live="polite"></ul>
+      </section>
+
+      <section class="toolbar" aria-label="底图筛选">
+        <label class="search-field">
+          <i class="fas fa-magnifying-glass" aria-hidden="true"></i>
+          <input
+            id="search-input"
+            type="search"
+            placeholder="搜索名称或角色…"
+            autocomplete="off"
+            aria-label="搜索底图"
+          />
+        </label>
+        <div class="filter-group" id="filter-group" role="group" aria-label="筛选">
+          <button type="button" data-filter="all" aria-pressed="true">全部</button>
+          <button type="button" data-filter="usable" aria-pressed="false">
+            可出图
+          </button>
+          <button type="button" data-filter="custom" aria-pressed="false">
+            自己上传
+          </button>
+          <button type="button" data-filter="disabled" aria-pressed="false">
+            已停用
+          </button>
+        </div>
+        <button type="button" class="ghost" id="refresh-btn">
+          <i class="fas fa-rotate" aria-hidden="true"></i>刷新
+        </button>
+      </section>
+
+      <section class="base-grid" id="base-grid" aria-live="polite"></section>
+
+      <div class="empty-state" id="empty-state" hidden>
+        <i class="fas fa-images" aria-hidden="true"></i>
+        <p id="empty-text">还没有底图</p>
+      </div>
+
+      <p class="footnote">
+        内置底图来自 Craft Egg / Bushiroad 的公开素材，仅供个人使用；对外分发请替换。
+        停用不会删文件，删除只对你自己上传的图开放。
+      </p>
+    </main>
+
+    <!-- 试排版预览 -->
+    <div
+      class="dialog-mask hidden"
+      id="preview-mask"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="preview-title"
+      aria-hidden="true"
+    >
+      <div class="dialog-card preview-card">
+        <h2 id="preview-title" class="dialog-title">试排版</h2>
+        <div class="preview-layout">
+          <div class="preview-stage">
+            <img id="preview-image" alt="合成预览" />
+            <p class="preview-placeholder" id="preview-placeholder">
+              调整文案后点「重新生成」
+            </p>
+          </div>
+          <div class="preview-controls">
+            <p class="preview-base-name" id="preview-base-name"></p>
+            <label class="field">
+              <span>文案（最多 <em id="preview-max-chars">8</em> 字）</span>
+              <input id="preview-text" type="text" maxlength="16" value="今天也要加油鸭" />
+            </label>
+            <label class="field">
+              <span>版式</span>
+              <select id="preview-layout">
+                <option value="auto">跟随模型随机</option>
+                <option value="top">文字在上</option>
+                <option value="bottom">文字在下</option>
+                <option value="left">文字在左（竖排）</option>
+                <option value="right">文字在右（竖排）</option>
+              </select>
+            </label>
+            <p class="preview-meta" id="preview-meta"></p>
+            <div class="dialog-actions">
+              <button type="button" class="ghost" id="preview-close">关闭</button>
+              <button type="button" id="preview-run">
+                <i class="fas fa-wand-magic-sparkles" aria-hidden="true"></i
+                >重新生成
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 重命名 -->
+    <div
+      class="dialog-mask hidden"
+      id="rename-mask"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="rename-title"
+      aria-hidden="true"
+    >
+      <div class="dialog-card rename-card">
+        <h2 id="rename-title" class="dialog-title">重命名底图</h2>
+        <label class="field">
+          <span>名称</span>
+          <input id="rename-input" type="text" maxlength="40" />
+        </label>
+        <div class="dialog-actions">
+          <button type="button" class="ghost" id="rename-cancel">取消</button>
+          <button type="button" id="rename-confirm">保存</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="../shared/ui.js"></script>
+    <script src="./script.js"></script>
+  </body>
+</html>

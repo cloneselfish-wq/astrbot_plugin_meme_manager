@@ -435,6 +435,8 @@ class MemeSender(Star, WebAPIMixin, CommandMixin, EventHandlerMixin, Integration
             font_dir=PLUGIN_DIR / "stamp_base" / "fonts",
             output_dir=PLUGIN_DATA_DIR / "compose",
             settings=settings,
+            # 自传底图放数据目录：插件升级会整体覆盖插件目录，放里面会丢
+            custom_dir=PLUGIN_DATA_DIR / "compose" / "bases",
         )
         if not service.available:
             logger.warning(

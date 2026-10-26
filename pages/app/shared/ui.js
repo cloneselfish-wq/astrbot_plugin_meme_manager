@@ -3,6 +3,7 @@ const pageNames = [
   ["a_manage", "表情包管理", "fa-face-grin-beam"],
   ["catalog", "资源广场", "fa-store"],
   ["semantic", "语义化", "fa-wand-magic-sparkles"],
+  ["compose", "底图库", "fa-palette"],
   ["settings", "设置中心", "fa-sliders"],
 ];
 const nav = document.querySelector(".nav-actions");

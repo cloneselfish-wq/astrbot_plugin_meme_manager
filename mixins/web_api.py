@@ -75,10 +75,16 @@ from ..backend.semantic.storage import (
     load_metadata,
     metadata_items,
 )
+from ..backend.compose import library_admin
+from ..backend.compose.engine import Style, compose, flatten
+from ..backend.compose.library import BaseLibrary
+from ..backend.compose.service import sanitize_caption
+from ..backend.compose.styles import plan_style
 from ..config import (
     COMMUNITY_INDEX_URL,
     PACKS_DIR,
     PLUGIN_DATA_DIR,
+    PLUGIN_DIR,
     TEMP_DIR,
 )
 
@@ -268,6 +274,55 @@ class WebAPIMixin:
 
         self._register_webui_api(
             "meme_image", self._api_serve_meme_image, ["GET"], "直接返回表情图片文件"
+        )
+        # ---- 底图配字：底图库管理 -------------------------------------
+        self._register_webui_api(
+            "compose/bases",
+            self._api_compose_bases,
+            ["GET"],
+            "列出底图配字可用的底图",
+        )
+        self._register_webui_api(
+            "compose/base/upload",
+            self._api_compose_base_upload,
+            ["POST"],
+            "上传一张底图（表单字段 file，可选 name）",
+        )
+        self._register_webui_api(
+            "compose/base/delete",
+            self._api_compose_base_delete,
+            ["POST"],
+            "删除自传底图",
+        )
+        self._register_webui_api(
+            "compose/base/disable",
+            self._api_compose_base_disable,
+            ["POST"],
+            "停用或恢复一张底图",
+        )
+        self._register_webui_api(
+            "compose/base/rename",
+            self._api_compose_base_rename,
+            ["POST"],
+            "重命名底图",
+        )
+        self._register_webui_api(
+            "compose/base/thumb",
+            self._api_compose_base_thumb,
+            ["GET"],
+            "底图缩略图（Data URL，供网格加载）",
+        )
+        self._register_webui_api(
+            "compose/base/image_data",
+            self._api_compose_base_image_data,
+            ["GET"],
+            "底图原图（Data URL，供大图预览）",
+        )
+        self._register_webui_api(
+            "compose/preview",
+            self._api_compose_preview,
+            ["POST"],
+            "用指定底图试排版，返回合成后的图片",
         )
         self._register_webui_api(
             "meme_image_data",
@@ -4274,3 +4329,310 @@ class WebAPIMixin:
                     temp_zip_path.unlink()
                 except Exception:
                     pass
+
+    # ------------------------------------------------------------ 底图库管理
+    #
+    # 底图配字用的是 stamp_base/ 里的静态素材，与表情包（packs）是两套东西，
+    # 所以这里不共用 pack 的写入守卫，而是走 library_admin 的原子写。
+    # 关键约束：运行时库按 manifest 的 mtime 失效缓存，因此每次变更都必须
+    # 真的改写 manifest（而不是只动文件），否则 WebUI 显示的和实际出图的会不一致。
+
+    def _compose_base_root(self) -> Path:
+        return PLUGIN_DIR / "stamp_base"
+
+    def _compose_custom_dir(self) -> Path:
+        """自传底图写在数据目录，插件升级重装不会把它们覆盖掉。"""
+        return PLUGIN_DATA_DIR / "compose" / "bases"
+
+    def _compose_library(self) -> BaseLibrary:
+        """优先复用已构建的服务，禁用状态下也能临时读库。"""
+        service = getattr(self, "compose_service", None)
+        if service is not None:
+            return service.library
+        return BaseLibrary(self._compose_base_root(), self._compose_custom_dir())
+
+    def _compose_render_config(self) -> tuple[int, int, str]:
+        """返回 (画布边长, 字数上限, 偏好字体)，越界值夹到安全区间。"""
+
+        def _as_int(value, fallback: int, low: int, high: int) -> int:
+            try:
+                return max(low, min(high, int(value)))
+            except (TypeError, ValueError):
+                return fallback
+
+        canvas = _as_int(
+            self._read_config_value(("compose", "canvas"), default=512), 512, 256, 1024
+        )
+        max_chars = _as_int(
+            self._read_config_value(("compose", "max_chars"), default=8), 8, 1, 16
+        )
+        font = str(self._read_config_value(("compose", "font"), default="") or "")
+        return canvas, max_chars, font
+
+    async def _api_compose_bases(self):
+        try:
+            payload = await asyncio.to_thread(
+                library_admin.list_bases,
+                self._compose_base_root(),
+                self._compose_custom_dir(),
+            )
+        except library_admin.BaseLibraryError as exc:
+            return jsonify({"message": exc.message, "code": exc.code}), 404
+        except Exception as exc:  # noqa: BLE001 - 读目录失败要给可读提示
+            logger.error(f"读取底图库失败: {exc}", exc_info=True)
+            return jsonify({"message": f"读取底图库失败：{exc}"}), 500
+        canvas, max_chars, font = self._compose_render_config()
+        payload["render"] = {"canvas": canvas, "max_chars": max_chars, "font": font}
+        return jsonify(payload), 200
+
+    async def _api_compose_base_upload(self):
+        try:
+            request.max_content_length = library_admin.MAX_BYTES + 2 * 1024 * 1024
+        except (AttributeError, RuntimeError):
+            # 新版 AstrBot 走 Starlette 上传对象，无需在这里调
+            pass
+
+        files = await request.files
+        uploaded = files.get("file") if files else None
+        if uploaded is None:
+            return jsonify({"message": "没有找到上传的图片文件"}), 400
+
+        form = await request.form
+        name = str(form.get("name") or "")
+        file_name = str(getattr(uploaded, "filename", "") or "")
+        try:
+            data = uploaded.read()
+            if inspect.isawaitable(data):
+                data = await data
+        except Exception as exc:  # noqa: BLE001
+            return jsonify({"message": f"读取上传内容失败：{exc}"}), 400
+        if inspect.isawaitable(data):  # 防御：异步文件对象返回可等待结果
+            data = await data
+
+        try:
+            entry = await asyncio.to_thread(
+                library_admin.add_base,
+                self._compose_base_root(),
+                data,
+                file_name,
+                name,
+                self._compose_custom_dir(),
+            )
+        except library_admin.BaseLibraryError as exc:
+            status = 409 if exc.code == "duplicate" else 400
+            logger.info(f"底图上传被拒绝[{exc.code}]: {exc.message}")
+            return jsonify({"message": exc.message, "code": exc.code}), status
+        except Exception as exc:  # noqa: BLE001
+            logger.error(f"底图上传失败: {exc}", exc_info=True)
+            return jsonify({"message": f"底图上传失败：{exc}"}), 500
+
+        return (
+            jsonify(
+                {
+                    "message": entry.get("message") or "已加入底图池",
+                    "base": {k: v for k, v in entry.items() if k != "message"},
+                }
+            ),
+            201,
+        )
+
+    async def _api_compose_base_delete(self):
+        data = await request.get_json(silent=True) or {}
+        base_id = str(data.get("id") or "").strip()
+        if not base_id:
+            return jsonify({"message": "缺少底图 id"}), 400
+        try:
+            result = await asyncio.to_thread(
+                library_admin.delete_base,
+                self._compose_base_root(),
+                base_id,
+                self._compose_custom_dir(),
+            )
+        except library_admin.BaseLibraryError as exc:
+            status = 404 if exc.code == "not_found" else 409
+            return jsonify({"message": exc.message, "code": exc.code}), status
+        except Exception as exc:  # noqa: BLE001
+            logger.error(f"删除底图失败: {exc}", exc_info=True)
+            return jsonify({"message": f"删除底图失败：{exc}"}), 500
+        return jsonify({"message": "已删除", **result}), 200
+
+    async def _api_compose_base_disable(self):
+        data = await request.get_json(silent=True) or {}
+        base_id = str(data.get("id") or "").strip()
+        if not base_id:
+            return jsonify({"message": "缺少底图 id"}), 400
+        disabled = bool(data.get("disabled", True))
+        try:
+            entry = await asyncio.to_thread(
+                library_admin.set_disabled,
+                self._compose_base_root(),
+                base_id,
+                disabled,
+                self._compose_custom_dir(),
+            )
+        except library_admin.BaseLibraryError as exc:
+            status = 404 if exc.code == "not_found" else 400
+            return jsonify({"message": exc.message, "code": exc.code}), status
+        except Exception as exc:  # noqa: BLE001
+            logger.error(f"切换底图状态失败: {exc}", exc_info=True)
+            return jsonify({"message": f"操作失败：{exc}"}), 500
+        action = "已停用" if disabled else "已恢复"
+        return jsonify({"message": f"{entry.get('name')} {action}", "base": entry}), 200
+
+    async def _api_compose_base_rename(self):
+        data = await request.get_json(silent=True) or {}
+        base_id = str(data.get("id") or "").strip()
+        name = str(data.get("name") or "").strip()
+        if not base_id or not name:
+            return jsonify({"message": "底图 id 和新名字都不能为空"}), 400
+        try:
+            entry = await asyncio.to_thread(
+                library_admin.rename_base,
+                self._compose_base_root(),
+                base_id,
+                name,
+                self._compose_custom_dir(),
+            )
+        except library_admin.BaseLibraryError as exc:
+            status = 404 if exc.code == "not_found" else 400
+            return jsonify({"message": exc.message, "code": exc.code}), status
+        except Exception as exc:  # noqa: BLE001
+            logger.error(f"重命名底图失败: {exc}", exc_info=True)
+            return jsonify({"message": f"重命名失败：{exc}"}), 500
+        return jsonify({"message": "已重命名", "base": entry}), 200
+
+    async def _api_compose_base_thumb(self):
+        """缩略图走 Data URL。
+
+        插件页面在沙箱 iframe 里，桥接层只提供 apiGet/apiPost，
+        没法直接给 ``<img src>`` 一个带鉴权的地址，所以图片统一编码成
+        Data URL 返回（与表情包预览同一套做法）。
+        """
+        base_id = str(request.args.get("id") or "").strip()
+        if not base_id:
+            return jsonify({"message": "缺少底图 id"}), 400
+        try:
+            path = library_admin.resolve_base_path(
+                self._compose_base_root(), base_id, self._compose_custom_dir()
+            )
+        except library_admin.BaseLibraryError as exc:
+            status = 404 if exc.code in {"not_found", "missing_file"} else 400
+            return jsonify({"message": exc.message, "code": exc.code}), status
+        try:
+            data_url, mime = await asyncio.to_thread(
+                self._build_preview_data_url, path
+            )
+        except Exception as exc:  # noqa: BLE001
+            logger.error(f"生成底图缩略图失败: {exc}", exc_info=True)
+            return jsonify({"message": f"缩略图生成失败：{exc}"}), 500
+        return jsonify({"id": base_id, "data_url": data_url, "mime": mime}), 200
+
+    async def _api_compose_base_image_data(self):
+        base_id = str(request.args.get("id") or "").strip()
+        if not base_id:
+            return jsonify({"message": "缺少底图 id"}), 400
+        try:
+            path = library_admin.resolve_base_path(
+                self._compose_base_root(), base_id, self._compose_custom_dir()
+            )
+        except library_admin.BaseLibraryError as exc:
+            status = 404 if exc.code in {"not_found", "missing_file"} else 400
+            return jsonify({"message": exc.message, "code": exc.code}), status
+        try:
+            data_url = await asyncio.to_thread(
+                self._build_file_data_url, path, "image/png"
+            )
+        except Exception as exc:  # noqa: BLE001
+            logger.error(f"读取底图失败: {exc}", exc_info=True)
+            return jsonify({"message": f"读取底图失败：{exc}"}), 500
+        return jsonify({"id": base_id, "data_url": data_url}), 200
+
+    async def _api_compose_preview(self):
+        """用指定底图试一次排版，返回合成后的图片字节。
+
+        目的是让用户在上传后立刻看到「字压上去是什么样」，
+        而不是等 bot 在群里发出来才发现难看。
+        """
+        data = await request.get_json(silent=True) or {}
+        base_id = str(data.get("base_id") or "").strip()
+        layout = str(data.get("layout") or "auto").strip()
+        text = str(data.get("text") or "").strip() or "今天也要加油鸭"
+        if layout not in {"auto", "top", "bottom", "left", "right"}:
+            return jsonify({"message": "版式参数非法"}), 400
+
+        canvas, max_chars, font_pref = self._compose_render_config()
+        caption = sanitize_caption(text)[:max_chars]
+        if not caption:
+            return jsonify({"message": "文案里没有可渲染的字符"}), 400
+
+        library = self._compose_library()
+        stamp = library.get(base_id) if base_id else None
+        if stamp is None:
+            bases = library.all()
+            if not bases:
+                return jsonify({"message": "底图池为空，先上传一张底图"}), 400
+            stamp = bases[0]
+
+        variation = secrets.token_hex(8)
+        font_dir = self._compose_base_root() / "fonts"
+        # plan_style 的 font/layout 是 keyword-only，位置传参会 TypeError
+        plan = await asyncio.to_thread(
+            plan_style,
+            caption,
+            variation,
+            stamp,
+            font_dir,
+            prefer_font=font_pref or None,
+            force_layout=None if layout == "auto" else layout,
+        )
+        if plan is None:
+            return (
+                jsonify(
+                    {
+                        "message": "现有字体都画不出这句话（含生僻字），换一句试试",
+                        "code": "font_missing",
+                    }
+                ),
+                400,
+            )
+
+        style = Style(
+            font_path=plan.font_path,
+            fill=plan.fill,
+            stroke=plan.stroke,
+            stroke_ratio=plan.stroke_ratio,
+            rotate=plan.rotate,
+            y_jitter=plan.y_jitter,
+            scale_jitter=plan.scale_jitter,
+            layout=plan.layout,
+            seed=variation,
+        )
+
+        def render():
+            image = compose(stamp.path, caption, style, canvas)
+            image = flatten(image)
+            buffer = io.BytesIO()
+            image.save(buffer, "PNG", optimize=True)
+            encoded = base64.b64encode(buffer.getvalue()).decode("ascii")
+            return f"data:image/png;base64,{encoded}", plan
+
+        try:
+            data_url, plan = await asyncio.to_thread(render)
+        except Exception as exc:  # noqa: BLE001
+            logger.error(f"底图预览渲染失败: {exc}", exc_info=True)
+            return jsonify({"message": f"渲染失败：{exc}"}), 500
+
+        return (
+            jsonify(
+                {
+                    "base_id": stamp.id,
+                    "base_name": stamp.name,
+                    "caption": caption,
+                    "layout": plan.layout,
+                    "font": plan.font_name,
+                    "palette": plan.palette,
+                    "data_url": data_url,
+                }
+            ),
+            200,
+        )

@@ -144,8 +144,9 @@ class ComposeService:
         font_dir: Path | str,
         output_dir: Path | str,
         settings: ComposeSettings | None = None,
+        custom_dir: Path | str | None = None,
     ):
-        self.library = BaseLibrary(base_root)
+        self.library = BaseLibrary(base_root, custom_dir)
         self.font_dir = Path(font_dir)
         self.output_dir = Path(output_dir)
         self.settings = settings or ComposeSettings()
