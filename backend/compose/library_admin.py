@@ -406,19 +406,22 @@ def delete_base(
     manifest = load_manifest(root)
     index = _find_index(manifest, base_id)
     item = manifest["items"][index]
-    if not item.get("custom"):
+
+    file_name = str(item.get("file") or "")
+    target = _entry_dir(item, base_dir, custom_path) / file_name if file_name else None
+    file_exists = bool(target and target.is_file())
+
+    # 内置图只允许停用；但如果它指向的文件本来就不在（比如清单残留），
+    # 允许把这条无效记录清掉，否则管理页会永远挂着一张打不开的卡片。
+    if not item.get("custom") and file_exists:
         raise BaseLibraryError(
             "内置底图不提供删除，可以改用「停用」；停用后随时能恢复",
             "builtin",
         )
 
-    file_name = str(item.get("file") or "")
-    if file_name:
-        target = _entry_dir(item, base_dir, custom_path) / file_name
+    if file_exists and target is not None:
         try:
             target.unlink()
-        except FileNotFoundError:
-            pass
         except OSError as exc:
             raise BaseLibraryError(f"删除文件失败：{exc}", "io_error") from exc
 
