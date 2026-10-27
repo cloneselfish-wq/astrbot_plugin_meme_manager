@@ -46,6 +46,17 @@ COMPOSE_PROMPT_MARKER_START = "<!-- meme_manager_compose_prompt:start -->"
 COMPOSE_PROMPT_MARKER_END = "<!-- meme_manager_compose_prompt:end -->"
 COMPOSE_TOOL_NAME = "compose_sticker"
 SEARCH_TOOL_NAME = "search_memes"
+# 用户点名要合成表情包：绕过会话节奏掷骰，直接走 compose 路径。
+# 意图动词 +（量词）+（主题）+ 图类名词；「来」必须紧跟量词，
+# 避免「回来发表情」这类误命中。主题部分放宽到 12 字以容纳
+# 「又要掏钱了的」这类完整描述。
+COMPOSE_EXPLICIT_PATTERN = re.compile(
+    r"(?:生成|制作|制[作造]|画|做|整|来[一两1\d个张点幅副])"
+    r"[一两1\d]*[个张点幅副]?"
+    r"[^，。！？!?,.\n]{0,12}?(?:表情包|表情|梗图|贴纸|贴图|表情图|sticker|meme)"
+    r"|(?:表情包|梗图|贴纸|贴图|sticker|meme)[^，。！？!?,.\n]{0,8}?"
+    r"(?:生成|制作|画出来|做一个|来一个|整一个|做一[张个])"
+)
 PLUGIN_NAME = "meme_manager"
 WEBUI_LOG_PREFIX = f"[{PLUGIN_NAME}][WebUI]"
 
@@ -475,10 +486,25 @@ class MemeSender(Star, WebAPIMixin, CommandMixin, EventHandlerMixin, Integration
             return False
         return self_id in allowed
 
+    def _compose_explicit_requested(self, event: AstrMessageEvent) -> bool:
+        """用户是否在这一轮点名要生成表情包（结果缓存，一条消息只判一次）。"""
+        cached = event.get_extra("meme_manager_compose_explicit")
+        if cached is not None:
+            return bool(cached)
+        text = ""
+        try:
+            text = str(event.get_message_str() or "")
+        except Exception:
+            text = str(getattr(event, "message_str", "") or "")
+        matched = bool(text and COMPOSE_EXPLICIT_PATTERN.search(text))
+        event.set_extra("meme_manager_compose_explicit", matched)
+        return matched
+
     def _compose_should_activate(self, event: AstrMessageEvent) -> bool:
         """本轮是否走合成路径，结果缓存到事件上供后续钩子复用。
 
-        同一轮只会掷一次骰——``on_llm_request`` 可能因重试被多次触发，
+        用户点名要生成时跳过掷骰直接命中；其余轮次按会话节奏掷骰。
+        同一轮只会决策一次——``on_llm_request`` 可能因重试被多次触发，
         每次重掷会让实际命中率翻倍。
         """
         cached = event.get_extra("meme_manager_compose_active")
@@ -487,13 +513,22 @@ class MemeSender(Star, WebAPIMixin, CommandMixin, EventHandlerMixin, Integration
 
         active = False
         if self.compose_service is not None and self._compose_bot_allowed(event):
-            session_key = str(
-                getattr(event, "unified_msg_origin", "")
-                or getattr(event, "session_id", "")
-                or ""
-            )
-            active = self.compose_service.should_compose(session_key)
+            if self._compose_explicit_requested(event):
+                active = True
+                logger.info("[meme_manager] 用户点名要合成表情，本轮直接走合成")
+            else:
+                session_key = str(
+                    getattr(event, "unified_msg_origin", "")
+                    or getattr(event, "session_id", "")
+                    or ""
+                )
+                active = self.compose_service.should_compose(session_key)
             if active:
+                session_key = str(
+                    getattr(event, "unified_msg_origin", "")
+                    or getattr(event, "session_id", "")
+                    or ""
+                )
                 message_id = str(
                     getattr(getattr(event, "message_obj", None), "message_id", "") or ""
                 )
@@ -502,7 +537,8 @@ class MemeSender(Star, WebAPIMixin, CommandMixin, EventHandlerMixin, Integration
                     "meme_manager_compose_variation",
                     f"{session_key}|{message_id}|{time.time_ns()}",
                 )
-                logger.info("[meme_manager] 本轮走底图配字，会话=%s", session_key)
+                if not self._compose_explicit_requested(event):
+                    logger.info("[meme_manager] 本轮走底图配字，会话=%s", session_key)
         event.set_extra("meme_manager_compose_active", active)
         return active
 
@@ -528,6 +564,31 @@ class MemeSender(Star, WebAPIMixin, CommandMixin, EventHandlerMixin, Integration
             "[边界]\n"
             "用户明确要求不要配图时不要调用。"
             "不要在正文里描述你选了哪张图、写了什么字或说明了生成过程。\n"
+            f"{COMPOSE_PROMPT_MARKER_END}"
+        )
+
+    @staticmethod
+    def _compose_explicit_system_prompt() -> str:
+        return (
+            f"\n\n{COMPOSE_PROMPT_MARKER_START}\n"
+            "[本轮配图方式]\n"
+            "用户这一轮明确要求你生成一张表情包，这不是可选项："
+            "必须调用一次 compose_sticker 把图做出来，不能用图库检索代替，"
+            "也不要只用文字回应。\n"
+            "[写什么]\n"
+            "text 是画在角色贴图上的那句台词。用户给了主题或原话时（例如「又要掏钱了」），"
+            "把它提炼成 2 到 6 字、最多 8 字的口语短句；原话本身合适就直接用，"
+            "太长就压缩保留情绪重点。没给主题时，就根据语境写一句角色会脱口而出的话。"
+            "允许 ？！… 这类标点，emoji 会被丢弃。\n"
+            "[怎么发]\n"
+            "工具返回 ok=true 时，把返回的 id 原样包在 && 中并独占一行，"
+            "放在正文末尾；也可以只回复这个标记。"
+            "首尾必须各有一个 &&，少写一个就发不出图，正文里会露出这串 id。"
+            "例如 id 为 meme:123456789abc，写成 &&meme:123456789abc&&，不要加代码框。"
+            "生成失败时用文字简短说明没画出来，不要反复重试。\n"
+            "[边界]\n"
+            "用户明确要求不要配图时不要调用。"
+            "不要在正文里描述你选了哪张底图、用了什么字体或生成过程。\n"
             f"{COMPOSE_PROMPT_MARKER_END}"
         )
 
@@ -1029,9 +1090,13 @@ class MemeSender(Star, WebAPIMixin, CommandMixin, EventHandlerMixin, Integration
         """
         if event is not None and self._compose_should_activate(event):
             self._reset_and_remove_tools(req, SEARCH_TOOL_NAME)
+            compose_prompt = (
+                self._compose_explicit_system_prompt()
+                if bool(event.get_extra("meme_manager_compose_explicit"))
+                else self._compose_system_prompt()
+            )
             req.system_prompt = (
-                self._strip_meme_prompt(req.system_prompt)
-                + self._compose_system_prompt()
+                self._strip_meme_prompt(req.system_prompt) + compose_prompt
             )
             # 同一轮可能因重试再次进入，已生成的候选必须保留
             if not event.get_extra("meme_manager_compose_initialized"):
