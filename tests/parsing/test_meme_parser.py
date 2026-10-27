@@ -265,3 +265,52 @@ def test_nested_brackets_do_not_rescan_each_inner_label(monkeypatch):
     result = MemeParser.parse(text, {"happy"}, alternative=True)
     assert result.text == text
     assert calls < len(text) * 4
+
+
+_SEMANTIC_ID = "meme:5c7bbb876ee5bc362074d1ccae6e435e"
+
+
+@pytest.mark.parametrize("chunk_size", [1, 2, 5, 1000])
+@pytest.mark.parametrize(
+    ("text", "visible", "selected"),
+    [
+        # 模型只写开头 && 忘记闭合：这是实际线上泄漏进群聊的形态。
+        (f"正文。\n&&{_SEMANTIC_ID}", "正文。\n", [_SEMANTIC_ID]),
+        # 完整、裸 id、以及多余尾 && 都应等价。
+        (f"正文。\n&&{_SEMANTIC_ID}&&", "正文。\n", [_SEMANTIC_ID]),
+        (f"正文。\n{_SEMANTIC_ID}", "正文。\n", [_SEMANTIC_ID]),
+        (f"正文。\n{_SEMANTIC_ID}&&", "正文。\n", [_SEMANTIC_ID]),
+        # 单个 & 不是合法前缀，必须保持原样，避免误吃正文。
+        (f"正文。\n&{_SEMANTIC_ID}", f"正文。\n&{_SEMANTIC_ID}", []),
+    ],
+)
+def test_semantic_id_tolerates_missing_closing_ampersands(
+    text, visible, selected, chunk_size
+):
+    expected = MemeParser.parse(text, (), semantic=True)
+    parser = MemeParser((), semantic=True)
+    actual = (
+        "".join(
+            parser.feed(text[index : index + chunk_size])
+            for index in range(0, len(text), chunk_size)
+        )
+        + parser.finish()
+    )
+    assert actual == expected.text == visible
+    assert list(dict.fromkeys(t.value for t in parser.tokens if t.valid)) == selected
+
+
+@pytest.mark.parametrize("chunk_size", [1, 2, 5, 1000])
+def test_alternative_markup_never_eats_missing_closing_ampersands(chunk_size):
+    """非语义模式不支持 meme: id，残缺标记不应被当成类别标记消费。"""
+    text = f"正文。\n&&{_SEMANTIC_ID}"
+    parser = MemeParser({"happy"}, alternative=True)
+    actual = (
+        "".join(
+            parser.feed(text[index : index + chunk_size])
+            for index in range(0, len(text), chunk_size)
+        )
+        + parser.finish()
+    )
+    assert actual == text
+    assert parser.selections == []

@@ -522,6 +522,8 @@ class MemeSender(Star, WebAPIMixin, CommandMixin, EventHandlerMixin, Integration
             "[怎么发]\n"
             "本轮最多生成一张。工具返回 ok=true 时，把返回的 id 原样包在 && 中"
             "并独占一行，放在正文末尾；也可以只回复这个标记。"
+            "首尾必须各有一个 &&，少写一个就发不出图，正文里会露出这串 id。"
+            "例如 id 为 meme:123456789abc，写成 &&meme:123456789abc&&，不要加代码框。"
             "生成失败时正常用文字回复，不要反复重试，也不要提工具或报错内容。\n"
             "[边界]\n"
             "用户明确要求不要配图时不要调用。"
@@ -1303,6 +1305,7 @@ class MemeSender(Star, WebAPIMixin, CommandMixin, EventHandlerMixin, Integration
                 "chars": len(result["caption"]),
                 "instruction": (
                     "把 id 原样包在 && 中，独占一行放在正文末尾；"
+                    f"首尾各一个 &&，照这个格式写：&&{result['id']}&&。"
                     "也可以只回复这个标记。不要在正文里说明你画了什么。"
                 ),
             }
